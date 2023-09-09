@@ -22,7 +22,7 @@ unsigned int createVAO(float* vertexData, int numVertices)
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	//Allocate space for + send vertex data to GPU.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numVertices, vertexData, GL_STATIC_DRAW);
 
 	unsigned int vao;
 	glGenVertexArrays(1, &vao);
@@ -31,7 +31,7 @@ unsigned int createVAO(float* vertexData, int numVertices)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 	//Define position attribute (3 floats)
-	glVertexAttribPointer(0, numVertices, GL_FLOAT, GL_FALSE, sizeof(float) * numVertices, (const void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (const void*)0);
 	glEnableVertexAttribArray(0);
 
 	return vao;
