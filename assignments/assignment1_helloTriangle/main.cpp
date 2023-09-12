@@ -15,7 +15,6 @@ float vertices[21] = {
 	 0.0,  0.5, 0.0, 0.0, 0.0, 1.0, 1.0  //Top center
 };
 
-
 const char* fragmentShaderSource = R"(
 	#version 450
 	out vec4 FragColor;
@@ -34,8 +33,8 @@ const char* vertexShaderSource = R"(
 	uniform float _Time;
 	void main(){
 		Color = vColor;
-		vec3 offset = vec3(0,sin(vPos.x + _Time),0)*0.5;
-		gl_Position = vec4(vPos + offset,1.0);
+		vec3 offset = vec3(0, sin(vPos.x + _Time), 0)*0.5;
+		gl_Position = vec4(vPos + offset, 1.0);
 	}
 )";
 
@@ -63,7 +62,7 @@ unsigned int createVAO(float* vertexData, int numVertices)
 	glEnableVertexAttribArray(1);
 
 	return vao;
-}
+};
 
 // Creates a new shader of a given type.
 // Possible types: GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, etc
@@ -87,7 +86,7 @@ unsigned int createShader(GLenum shaderType, const char* sourceCode)
 	}
 
 	return createdShader;
-}
+};
 
 //Creates a new shader program with vertex + fragment stages
 //Returns id of new shader program if successful, 0 if failed
@@ -97,7 +96,7 @@ unsigned int createShaderProgram(const char* vertexShaderSource, const char* fra
 	unsigned int fragmentShader = createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
 	unsigned int shaderProgram = glCreateProgram();
-	
+
 	//Attach each stage
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
@@ -119,7 +118,7 @@ unsigned int createShaderProgram(const char* vertexShaderSource, const char* fra
 	glDeleteShader(fragmentShader);
 
 	return shaderProgram;
-}
+};
 
 int main() {
 
@@ -150,13 +149,15 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(shader);
 		glBindVertexArray(vao);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+
 		//The current time in seconds this frame
 		float time = (float)glfwGetTime();
 		//Get the location of the uniform by name
 		int timeLocation = glGetUniformLocation(shader, "_Time");
 		//Set the value of the variable at the location
 		glUniform1f(timeLocation, time);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glfwSwapBuffers(window);
 	}
 	printf("Shutting down...");
