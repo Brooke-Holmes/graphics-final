@@ -3,6 +3,7 @@
 
 #include <ew/external/glad.h>
 #include <ew/ewMath/ewMath.h>
+#include <bh/shader.h>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -64,6 +65,10 @@ int main() {
 		printf("GLAD Failed to load GL headers");
 		return 1;
 	}
+
+	std::string vertexShaderSource = bh::loadShaderSourceFromFile("assets/vertexShader.vert");
+	std::string fragmentShaderSource = bh::loadShaderSourceFromFile("assets/fragmentShader.frag");
+	unsigned int shader = createShaderProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
 
 	//Initialize ImGUI
 	IMGUI_CHECKVERSION();
