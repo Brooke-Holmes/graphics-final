@@ -20,15 +20,21 @@ namespace bh
 }
 void bh::Shader::setVec2(const std::string& name, float x, float y) const
 {
-	vec2 vector2;
+		GLint location = glGetUniformLocation(m_id, name.c_str());
+		glUseProgram(m_id);
+		glUniform2f(location, x, y);
 }
 
 inline void bh::Shader::setVec3(const std::string& name, float x, float y, float z) const
 {
-
+	GLint location = glGetUniformLocation(m_id, name.c_str());
+		glUseProgram(m_id);
+		glUniform3f(location, x, y, z);
 }
 
 inline void bh::Shader::setVec4(const std::string& name, float x, float y, float z, float w) const
 {
-
+	GLint location = glGetUniformLocation(m_id, name.c_str());
+	glUseProgram(m_id);
+	glUniform4f(location, x, y, z, w);
 }
