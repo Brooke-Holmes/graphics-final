@@ -17,12 +17,14 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 720;
 
-float vertices[9] = {
-	//x   //y  //z   
-	-0.5, -0.5, 0.0, 
-	 0.5, -0.5, 0.0,
-	 0.0,  0.5, 0.0 
+float vertices[18] = {
+	//x    y    z
+	//Triangle 1 
+	0 , 0 , 0 ,
+	//Triangle 2
+	1 , 1 , 0
 };
+
 
 float triangleColor[3] = { 1.0f, 0.5f, 0.0f };
 float triangleBrightness = 1.0f;
@@ -54,13 +56,10 @@ int main() {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
 
-	std::string vertexShaderSource = bh::loadShaderSourceFromFile("assets/vertexShader.vert");
-	std::string fragmentShaderSource = bh::loadShaderSourceFromFile("assets/fragmentShader.frag");
-	unsigned int shader = createShaderProgram(vertexShaderSource.c_str(), fragmentShaderSource.c_str());
-	unsigned int vao = createVAO(vertices, 3);
-
-	glUseProgram(shader);
-	glBindVertexArray(vao);
+	bh::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
+	shader.use();
+	shader.setFloat("_MyFloat", 1);
+	shader.setVec2("_Vec2", vec2[0], vec2[1]);
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
@@ -68,10 +67,6 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		//Set uniforms
-		glUniform3f(glGetUniformLocation(shader, "_Color"), triangleColor[0], triangleColor[1], triangleColor[2]);
-		glUniform1f(glGetUniformLocation(shader,"_Brightness"), triangleBrightness);
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		//Render UI
 		{
