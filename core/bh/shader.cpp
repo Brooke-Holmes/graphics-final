@@ -1,4 +1,4 @@
-#include "C:\Users\phoen\OneDrive\Desktop\gpr200-fa2023-templates\core\ew\external\glad.h"
+#include "..\ew\external\glad.h"
 #include "shader.h"
 
 namespace bh

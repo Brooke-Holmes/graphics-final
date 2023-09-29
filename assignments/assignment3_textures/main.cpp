@@ -32,7 +32,7 @@ unsigned short indices[6] = {
 	2, 3, 0
 };
 
-int main() {
+int main() {                                                                                                      
 	printf("Initializing...");
 	if (!glfwInit()) {
 		printf("GLFW failed to init!");
