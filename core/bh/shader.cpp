@@ -52,7 +52,7 @@ namespace bh
 			glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
 			printf("Failed to link shader program: %s", infoLog);
 		}
-		//The linked program now contains our compiled code, so we can delete these intermediate objects
+
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 		return shaderProgram;
@@ -80,3 +80,5 @@ namespace bh
 		glUniform1f(glGetUniformLocation(m_id, name.c_str()), v);
 	}
 };
+
+// BY THE WAY i am still getting a linker error here but i think it's an issue with my lenovo rather than the code itself so idk how to test it, sorry if it still doesn't compile

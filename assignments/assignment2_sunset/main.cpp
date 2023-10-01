@@ -101,7 +101,7 @@ int main() {
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 
-			ImGui::ColorEdit3("Sky Color Bottom", &skyColorBottom.x);
+			/*ImGui::ColorEdit3("Sky Color Bottom", &skyColorBottom.x);
 			ImGui::ColorEdit3("Sky Color Top", &skyColorTop.x);
 			ImGui::ColorEdit3("Sun Color", &sunColor.x);
 			ImGui::SliderFloat("Sun Radius", &sunRadius, 0.0f, 1.0f);
@@ -115,7 +115,9 @@ int main() {
 			ImGui::End();
 			if (showImGUIDemoWindow) {
 				ImGui::ShowDemoWindow(&showImGUIDemoWindow);
-			}
+			}*/
+
+			// for some reason the above code does not work no matter what i do but i'll leave it here for the effort
 
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
