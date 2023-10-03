@@ -64,7 +64,12 @@ int main() {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	ew::Shader shader("assets/vertexShader.vert", "assets/fragmentShader.frag");
+	ew::Shader backgroundShader("assets/background.vert", "assets/background.frag");
+	ew::Shader characterShader("assets/character.vert", "assets/character.frag");
 
 	unsigned int quadVAO = createVAO(vertices, 4, indices, 6);
 
@@ -74,32 +79,43 @@ int main() {
 		glfwPollEvents();
 		glClearColor(0.3f, 0.4f, 0.9f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
+		/*
 		unsigned int background = loadTexture("assets/bricks.jpg", GL_REPEAT, GL_LINEAR);
 		unsigned int character = loadTexture("assets/character.png", GL_LINEAR, GL_LINEAR);
-
 		glActiveTexture(GL_TEXTURE0);
-
 		shader.setInt("_BrickTexture", 0);
 		shader.setInt("_CharacterTexture", 1);
-
 		bh::Shader backgroundShader("assets/background.vert", "assets/background.frag");
 		bh::Shader characterShader("assets/character.vert", "assets/character.frag");
-
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glBindVertexArray(quadVAO);
-
 		//Draw background
 		backgroundShader.use();
 		glBindTexture(GL_TEXTURE_2D, background);
-		
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-
 		//Draw character
 		characterShader.use();
 		glBindTexture(GL_TEXTURE_2D, character);
-
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
+		*/
+
+		float time = (float)glfwGetTime();
+
+		backgroundShader.use();
+		unsigned int backgroundTexture = loadTexture("assets/sussy skeld bricc.PNG", GL_REPEAT, GL_LINEAR);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, backgroundTexture);
+		backgroundShader.setInt("_BackgroundTexture", 0);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
+
+		characterShader.use();
+		unsigned int characterTexture = loadTexture("assets/amog big sussy.png", GL_REPEAT, GL_LINEAR);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, characterTexture);
+		characterShader.setInt("_CharacterTexture", 0);
+		characterShader.setFloat("_Time", time);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
+
 
 		//Render UI
 		{
