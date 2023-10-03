@@ -4,11 +4,17 @@
 #include <ew/external/glad.h>
 #include <ew/ewMath/ewMath.h>
 #include <GLFW/glfw3.h>
+//im so so tired and doing this assignment just is not in the cards right now, i'm gonna submit it as it is
+// even though i cant figure out the linker error because i have no clue wtf is happening
+// i dont know if this can even count as submitting but i promise i tried i just couldn't get around to working on it until today so i couldnt ask anyone for help
+
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
 #include <ew/shader.h>
+#include <bh/texture.h>
+#include <bh/shader.h>
 
 struct Vertex {
 	float x, y, z;
@@ -69,13 +75,35 @@ int main() {
 		glClearColor(0.3f, 0.4f, 0.9f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		//Set uniforms
-		shader.use();
+		unsigned int background = loadTexture("assets/bricks.jpg", GL_REPEAT, GL_LINEAR);
+		unsigned int character = loadTexture("assets/character.png", GL_LINEAR, GL_LINEAR);
+
+		glActiveTexture(GL_TEXTURE0);
+
+		shader.setInt("_BrickTexture", 0);
+		shader.setInt("_CharacterTexture", 1);
+
+		bh::Shader backgroundShader("assets/background.vert", "assets/background.frag");
+		bh::Shader characterShader("assets/character.vert", "assets/character.frag");
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glBindVertexArray(quadVAO);
+
+		//Draw background
+		backgroundShader.use();
+		glBindTexture(GL_TEXTURE_2D, background);
+		
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		//Draw character
+		characterShader.use();
+		glBindTexture(GL_TEXTURE_2D, character);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
 
 		//Render UI
 		{
+
 			ImGui_ImplGlfw_NewFrame();
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui::NewFrame();
