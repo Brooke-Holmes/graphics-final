@@ -1,5 +1,6 @@
 #include "..\ew\external\glad.h"
 #include "shader.h"
+#include "..\ew\ewMath\mat4.h"
 
 namespace bh
 {
@@ -15,7 +16,6 @@ namespace bh
 		buffer << fstream.rdbuf();
 		return buffer.str();
 	}
-
 
 	unsigned int createShader(GLenum shaderType, const char* sourceCode) {
 		//Create a new vertex shader object
@@ -79,6 +79,9 @@ namespace bh
 	{
 		glUniform1f(glGetUniformLocation(m_id, name.c_str()), v);
 	}
-};
 
-// BY THE WAY i am still getting a linker error here but i think it's an issue with my lenovo rather than the code itself so idk how to test it, sorry if it still doesn't compile
+	void Shader::setMat4(const std::string& name, const ew::Mat4& v) const
+	{
+		glUniformMatrix4fv(glGetUniformLocation(m_id, name.c_str()), 1, GL_FALSE, &v[0][0]);
+	}
+};

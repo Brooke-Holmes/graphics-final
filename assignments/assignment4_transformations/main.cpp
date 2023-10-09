@@ -11,6 +11,7 @@
 #include <ew/shader.h>
 #include <ew/ewMath/vec3.h>
 #include <ew/procGen.h>
+#include <bh/transformations.h>
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -62,11 +63,14 @@ int main() {
 		//Clear both color buffer AND depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		Transform transform;
+		transform.position = ew::Vec3(0.0f, 0.0f, 0.0f);
+		transform.rotation = ew::Vec3(0.0f, 0.0f, 0.0f);
+		transform.scale = ew::Vec3(1.0f, 1.0f, 1.0f);
+
 		//Set uniforms
 		shader.use();
-
-		//TODO: Set model matrix uniform
-
+		shader.setMat4("_Model", transform.getModelMatrix());
 		cubeMesh.draw();
 
 		//Render UI
@@ -74,6 +78,10 @@ int main() {
 			ImGui_ImplGlfw_NewFrame();
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui::NewFrame();
+
+			ImGui::DragFloat3("Position", &cubeTransform.position.x, 0.05f);
+			ImGui::DragFloat3("Rotation", &cubeTransform.rotation.x, 1.0f);
+			ImGui::DragFloat3("Scale", &cubeTransform.scale.x, 0.05f);
 
 			ImGui::Begin("Transform");
 			ImGui::End();

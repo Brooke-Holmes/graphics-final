@@ -4,9 +4,6 @@
 #include <ew/external/glad.h>
 #include <ew/ewMath/ewMath.h>
 #include <GLFW/glfw3.h>
-//im so so tired and doing this assignment just is not in the cards right now, i'm gonna submit it as it is
-// even though i cant figure out the linker error because i have no clue wtf is happening
-// i dont know if this can even count as submitting but i promise i tried i just couldn't get around to working on it until today so i couldnt ask anyone for help
 
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
