@@ -63,15 +63,24 @@ int main() {
 		//Clear both color buffer AND depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		Transform transform;
-		transform.position = ew::Vec3(0.0f, 0.0f, 0.0f);
-		transform.rotation = ew::Vec3(0.0f, 0.0f, 0.0f);
-		transform.scale = ew::Vec3(1.0f, 1.0f, 1.0f);
+		const int NUM_CUBES = 4;
 
-		//Set uniforms
-		shader.use();
-		shader.setMat4("_Model", transform.getModelMatrix());
-		cubeMesh.draw();
+		Transform transform[NUM_CUBES];
+
+		for (int i = 0; i < NUM_CUBES; i++)
+		{
+			transform[i].position = ew::Vec3(0.0f, 0.0f, 0.0f);
+			transform[i].rotation = ew::Vec3(0.0f, 0.0f, 0.0f);
+			transform[i].scale = ew::Vec3(1.0f, 1.0f, 1.0f);
+		}
+
+		for (int i = 0; i < NUM_CUBES; i++)
+		{
+			// Set uniforms
+			shader.use();
+			shader.setMat4("_Model", transform[i].getModelMatrix());
+			cubeMesh.draw();
+		}
 
 		//Render UI
 		{
@@ -79,11 +88,18 @@ int main() {
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui::NewFrame();
 
-			ImGui::DragFloat3("Position", &cubeTransform.position.x, 0.05f);
-			ImGui::DragFloat3("Rotation", &cubeTransform.rotation.x, 1.0f);
-			ImGui::DragFloat3("Scale", &cubeTransform.scale.x, 0.05f);
-
 			ImGui::Begin("Transform");
+			for (size_t i = 0; i < NUM_CUBES; i++)
+			{
+				ImGui::PushID(i);
+				if (ImGui::CollapsingHeader("Transform")) {
+					ImGui::DragFloat3("Position", &transform[i].position.x, 0.05f);
+					ImGui::DragFloat3("Rotation", &transform[i].rotation.x, 1.0f);
+					ImGui::DragFloat3("Scale", &transform[i].scale.x, 0.05f);
+				}
+				ImGui::PopID();
+			}
+
 			ImGui::End();
 
 			ImGui::Render();

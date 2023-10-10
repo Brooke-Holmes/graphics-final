@@ -79,9 +79,9 @@ struct Transform {
     ew::Mat4 getModelMatrix() const {
         ew::Mat4 translationMatrix = bh::Translate(position);
         ew::Mat4 rotationMatrix =
-            bh::RotateZ(rotation.z * (3.14159f / 180.0f)) *
+            bh::RotateY(rotation.y * (3.14159f / 180.0f)) *
             bh::RotateX(rotation.x * (3.14159f / 180.0f)) *
-            bh::RotateY(rotation.y * (3.14159f / 180.0f));
+            bh::RotateZ(rotation.z * (3.14159f / 180.0f));
         ew::Mat4 scaleMatrix = bh::Scale(scale);
 
         return translationMatrix * rotationMatrix * scaleMatrix;
