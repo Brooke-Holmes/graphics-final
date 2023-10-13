@@ -79,9 +79,9 @@ namespace bh {
     //up = up axis, usually(0,1,0)
 inline ew::Mat4 LookAt(ew::Vec3 eye, ew::Vec3 target, ew::Vec3 up) {
     return ew::Mat4(
-        1, 0, 0, 1,
-        0, 1, 0, 1,
-        0, 0, 1, 1,
+        (eye - target) / abs(eye - target), 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
         0, 0, 0, 1
     );
         //use ew::Cross for cross product!
