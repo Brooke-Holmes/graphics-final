@@ -110,20 +110,25 @@ inline ew::Mat4 Orthographic(float height, float aspect, float near, float far)
 
 //Perspective projection
 //fov = vertical aspect ratio (radians)
-inline ew::Mat4 Perspective(float fov, float aspect, float near, float far) {
+inline ew::Mat4 Perspective(float fov, float aspect, float near, float far)
+{
     float perspective = tan(fov / 2.0f);
-    return ew::Mat4{
+    return ew::Mat4
+    {
         1.0f / (aspect * perspective), 0, 0, 0,
         0, 1.0f / perspective, 0, 0,
         0, 0, -(far + near) / (far - near), -1,
-        0, 0, -(2.0f * far * near) / (far - near), 0 };
+        0, 0, -(2.0f * far * near) / (far - near), 0
+    };
 
-    struct Transform {
+    struct Transform
+    {
         ew::Vec3 position = ew::Vec3(0.0f, 0.0f, 0.0f);
         ew::Vec3 rotation = ew::Vec3(0.0f, 0.0f, 0.0f); // Euler angles (degrees)
         ew::Vec3 scale = ew::Vec3(1.0f, 1.0f, 1.0f);
 
-        ew::Mat4 getModelMatrix() const {
+        ew::Mat4 getModelMatrix() const
+        {
             ew::Mat4 translationMatrix = bh::Translate(position);
             ew::Mat4 rotationMatrix =
                 bh::RotateY(rotation.y * (3.14159f / 180.0f)) *
