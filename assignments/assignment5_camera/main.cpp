@@ -11,6 +11,7 @@
 #include <ew/shader.h>
 #include <ew/procGen.h>
 #include <ew/transform.h>
+#include <bh/camera.h>
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -75,7 +76,21 @@ int main() {
 		//Set uniforms
 		shader.use();
 
-		//TODO: Set model matrix uniform
+		Camera camera;
+		camera.position = ew::Vec3(0.0f, 0.0f, 3.0f); 
+		camera.target = ew::Vec3(0.0f, 0.0f, 0.0f); 
+		camera.fov = 45.0f;
+		camera.aspectRatio = static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT);
+		camera.nearPlane = 0.1f;
+		camera.farPlane = 100.0f;
+		camera.orthographic = false;
+		camera.orthoSize = 5.0f;
+
+		ew::Mat4 viewMatrix = camera.ViewMatrix();
+		ew::Mat4 projectionMatrix = camera.ProjectionMatrix();
+		shader.setMat4("_View", viewMatrix);
+		shader.setMat4("_Projection", projectionMatrix);
+
 		for (size_t i = 0; i < NUM_CUBES; i++)
 		{
 			//Construct model matrix
