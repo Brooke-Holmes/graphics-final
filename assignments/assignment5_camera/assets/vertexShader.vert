@@ -12,5 +12,5 @@ uniform mat4 _Projection;
 void main(){
     Normal = vNormal;
     // Full transformation from model to clip space
-    gl_Position = _Projection * _View * _Model * vec4(vPos, 1.0);
+    gl_Position = _Model * vec4(vPos, 1.0);
 }

@@ -94,7 +94,7 @@ int main() {
 		for (size_t i = 0; i < NUM_CUBES; i++)
 		{
 			//Construct model matrix
-			shader.setMat4("_Model", cubeTransforms[i].getModelMatrix());
+			shader.setMat4("_Model", camera.ProjectionMatrix() * camera.ViewMatrix() * cubeTransforms[i].getModelMatrix());
 			cubeMesh.draw();
 		}
 
@@ -132,4 +132,3 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
-
