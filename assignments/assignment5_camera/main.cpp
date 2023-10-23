@@ -77,24 +77,22 @@ int main() {
 		shader.use();
 
 		Camera camera;
-		camera.position = ew::Vec3(0.0f, 0.0f, 3.0f); 
+		camera.position = ew::Vec3(0.0f, 0.0f, 5.0f); 
 		camera.target = ew::Vec3(0.0f, 0.0f, 0.0f); 
-		camera.fov = 45.0f;
+		camera.fov = 60.0f;
 		camera.aspectRatio = static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT);
 		camera.nearPlane = 0.1f;
 		camera.farPlane = 100.0f;
 		camera.orthographic = false;
-		camera.orthoSize = 5.0f;
+		camera.orthoSize = 6.0f;
 
-		ew::Mat4 viewMatrix = camera.ViewMatrix();
-		ew::Mat4 projectionMatrix = camera.ProjectionMatrix();
-		shader.setMat4("_View", viewMatrix);
-		shader.setMat4("_Projection", projectionMatrix);
+		shader.setMat4("_View", camera.ViewMatrix());
+		shader.setMat4("_Projection", camera.ProjectionMatrix());
 
 		for (size_t i = 0; i < NUM_CUBES; i++)
 		{
 			//Construct model matrix
-			shader.setMat4("_Model", camera.ProjectionMatrix() * camera.ViewMatrix() * cubeTransforms[i].getModelMatrix());
+			shader.setMat4("_Model", cubeTransforms[i].getModelMatrix());
 			cubeMesh.draw();
 		}
 
