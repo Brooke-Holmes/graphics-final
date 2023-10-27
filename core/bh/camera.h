@@ -8,6 +8,8 @@ struct Camera {
     struct Camera {
         bool orthographic; //Perspective or orthographic?
         float orthoSize; //Height of orthographic frustum
+        float mouseSensitivity = 0.5f;
+        float moveSpeed = 0.5f;
 
         ew::Mat4 ViewMatrix();
         ew::Mat4 ProjectionMatrix();
