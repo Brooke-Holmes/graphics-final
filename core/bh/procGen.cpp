@@ -1,4 +1,5 @@
 #include "procGen.h"
+#include "transformations.h"
 
 ew::MeshData myLib::createSphere(float radius, int numSegments)
 {
@@ -12,26 +13,30 @@ ew::MeshData myLib::createCylinder(float height, float radius, int numSegments)
 
 ew::MeshData myLib::createPlane(float width, float height, int subdivisions)
 {
-	for (row = 0; row <= subdivisions)
+	Transform v;
+	for (int row = 0; row <= subdivisions)
 	{
-		for (col = 0; col <= subdivisions)
+		for (int col = 0; col <= subdivisions)
 		{
-			v.x = width * (col / subdivisions)
-				v.z = -height * (row / subdivisions)
-				vertices.push_back(v)
+			v.x = width * (col / subdivisions);
+			v.z = -height * (row / subdivisions);
+			vertices.push_back(v);
 		}
 	}
-	columns = subDivisions + 1
-		for (row = 0; row < subDivisions)
+	int columns = subDivisions + 1;
+		for (int row = 0; row < subDivisions)
 		{
-			for (col = 0; col < subDivisions)
+			for (int col = 0; col < subDivisions)
 			{
-				start = row * columns + col
+				int start = row * columns + col;
 					//Bottom right triangle
-					indices.push_back(start)
-					indices.push_back(start + 1)
-					indices.push_back(start + columns + 1)
+				indices.push_back(start);
+				indices.push_back(start + 1);
+				indices.push_back(start + columns + 1);
 					//Top left triangle…
+				indices.push_back(start);
+				indices.push_back(start - 1);
+				indices.push_back(start + columns - 1);
 			}
 		}
 
