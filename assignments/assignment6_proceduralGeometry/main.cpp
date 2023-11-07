@@ -14,6 +14,7 @@
 #include <ew/transform.h>
 #include <ew/camera.h>
 #include <ew/cameraController.h>
+#include <bh/procGen.h>
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void resetCamera(ew::Camera& camera, ew::CameraController& cameraController);
@@ -81,9 +82,17 @@ int main() {
 	//Create cube
 	ew::MeshData cubeMeshData = ew::createCube(0.5f);
 	ew::Mesh cubeMesh(cubeMeshData);
+	ew::MeshData sphereMeshData = bh::createSphere(0.5f, 64);
+	ew::Mesh sphereMesh(sphereMeshData);
+	ew::MeshData cylinderMeshData = bh::createCylinder(1.0f, 1.0f, 64);
+	ew::Mesh cylinderMesh(cylinderMeshData);
 
 	//Initialize transforms
 	ew::Transform cubeTransform;
+	ew::Transform sphereTransform;
+	ew::Transform cylinderTransform;
+	sphereTransform.position = ew::Vec3(1.0f, 0.0f, 0.0f);
+	cylinderTransform.position = ew::Vec3(3.0f, 0.0f, 0.0f);
 
 	resetCamera(camera,cameraController);
 
@@ -99,6 +108,7 @@ int main() {
 
 		//Render
 		glClearColor(appSettings.bgColor.x, appSettings.bgColor.y, appSettings.bgColor.z,1.0f);
+
 
 		//Clear both color buffer AND depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -120,6 +130,12 @@ int main() {
 		//Draw cube
 		shader.setMat4("_Model", cubeTransform.getModelMatrix());
 		cubeMesh.draw((ew::DrawMode)appSettings.drawAsPoints);
+
+		shader.setMat4("_Model", sphereTransform.getModelMatrix());
+		sphereMesh.draw((ew::DrawMode)appSettings.drawAsPoints);
+
+		shader.setMat4("_Model", cylinderTransform.getModelMatrix());
+		cylinderMesh.draw((ew::DrawMode)appSettings.drawAsPoints);
 
 		//Render UI
 		{
