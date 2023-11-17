@@ -61,6 +61,8 @@ int main() {
 	ew::Shader shader("assets/defaultLit.vert", "assets/defaultLit.frag");
 	unsigned int brickTexture = ew::loadTexture("assets/brick_color.jpg",GL_REPEAT,GL_LINEAR);
 
+	const int MAX_LIGHTS = 3;
+
 	//Create cube
 	ew::Mesh cubeMesh(ew::createCube(1.0f));
 	ew::Mesh planeMesh(ew::createPlane(5.0f, 5.0f, 10));
@@ -112,8 +114,31 @@ int main() {
 		cylinderMesh.draw();
 
 		//TODO: Render point lights
+		struct Light {
+			ew::Vec3 position; //World space
+			ew::Vec3 color; //RGB
+		};
+		struct Material {
+			float ambientK = 0.1f;  
+			float diffuseK = 0.7f;  
+			float specularK = 0.5f;  
+			float shininess = 32.0f;
+		};
+
+		Light lights[MAX_LIGHTS];
+		lights[0].position = ew::Vec3(2.0f, 2.0f, 2.0f);
+		lights[0].color = ew::Vec3(1.0f, 1.0f, 1.0f); // White light
+
+		lights[1].position = ew::Vec3(-2.0f, 2.0f, 2.0f);
+		lights[1].color = ew::Vec3(1.0f, 0.0f, 0.0f); // Red light
+
+		lights[2].position = ew::Vec3(0.0f, 0.0f, -2.0f);
+		lights[2].color = ew::Vec3(0.0f, 0.0f, 1.0f); // Blue light
+
+		Material material;
 
 		//Render UI
+
 		{
 			ImGui_ImplGlfw_NewFrame();
 			ImGui_ImplOpenGL3_NewFrame();
@@ -138,6 +163,18 @@ int main() {
 					resetCamera(camera, cameraController);
 				}
 			}
+
+			// Render point lights
+			for (int i = 0; i < MAX_LIGHTS; ++i) {
+				shader.setVec3("_Lights[" + std::to_string(i) + "].position", lights[i].position);
+				shader.setVec3("_Lights[" + std::to_string(i) + "].color", lights[i].color);
+			}
+
+			// Expose material properties to the shader
+			shader.setFloat("ambientK", material.ambientK);
+			shader.setFloat("diffuseK", material.diffuseK);
+			shader.setFloat("specularK", material.specularK);
+			shader.setFloat("shininess", material.shininess);
 
 			ImGui::ColorEdit3("BG color", &bgColor.x);
 			ImGui::End();
