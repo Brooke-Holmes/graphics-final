@@ -1,4 +1,4 @@
-//Currently this is just a copy of Autumn's lighting assignment
+
 #include <stdio.h>
 #include <math.h>
 
@@ -22,6 +22,10 @@ void resetCamera(ew::Camera& camera, ew::CameraController& cameraController);
 
 int SCREEN_WIDTH = 1080;
 int SCREEN_HEIGHT = 720;
+
+float SAND_HEIGHT = -20;
+float WATER_HEIGHT = 20;
+
 
 float prevTime;
 ew::Vec3 bgColor = ew::Vec3(0.1f);
@@ -83,16 +87,16 @@ int main() {
 	ew::Shader lightShader("assets/unlit.vert", "assets/unlit.frag");
 	unsigned int brickTexture = ew::loadTexture("assets/brick_color.jpg", GL_REPEAT, GL_LINEAR);
 
-	//Create cube
-	ew::Mesh cubeMesh(ew::createCube(1.0f));
-	ew::Mesh planeMesh(ew::createPlane(5.0f, 5.0f, 10));
-	ew::Mesh sphereMesh(ew::createSphere(0.5f, 64));
-	ew::Mesh cylinderMesh(ew::createCylinder(0.5f, 1.0f, 32));
-	ew::Mesh lightMesh(ew::createSphere(0.5, 16));
 
-	//Light light1;
+	//Create meshes and transforms
+	ew::Mesh sandMesh(ew::createPlane(50.0f, 50.0f, 10));
+	ew::Mesh waterMesh(ew::createPlane(50.0f, 50.0f, 10));
 
+	ew::Transform sandTransform;
+	ew::Transform waterTransform;
 
+	sandTransform.position = ew::Vec3(0, SAND_HEIGHT, 0);
+	waterTransform.position = ew::Vec3(0, WATER_HEIGHT, 0);
 
 
 	Material material;
@@ -101,16 +105,9 @@ int main() {
 	material.specularK = 0.0f;
 	material.shininess = 2.0f;
 
-	//Initialize transforms
-	ew::Transform cubeTransform;
-	ew::Transform planeTransform;
-	ew::Transform sphereTransform;
-	ew::Transform cylinderTransform;
-	planeTransform.position = ew::Vec3(0, -1.0, 0);
-	sphereTransform.position = ew::Vec3(-1.5f, 0.0f, 0.0f);
-	cylinderTransform.position = ew::Vec3(1.5f, 0.0f, 0.0f);
 
 	Light light[MAX_LIGHTS];
+	ew::Mesh lightMesh(ew::createSphere(5.0f, 64));
 
 	light[0].position = ew::Vec3(0.0f, 2.0f, 0.0f);
 	light[0].color = ew::Vec3(1.0f, 0.0f, 0.0f);
@@ -186,18 +183,11 @@ int main() {
 		shader.setMat4("_ViewProjection", camera.ProjectionMatrix() * camera.ViewMatrix());
 
 		//Draw shapes
-		shader.setMat4("_Model", cubeTransform.getModelMatrix());
-		cubeMesh.draw();
+		shader.setMat4("_Model", sandTransform.getModelMatrix());
+		sandMesh.draw();
 
-		shader.setMat4("_Model", planeTransform.getModelMatrix());
-		planeMesh.draw();
-
-		shader.setMat4("_Model", sphereTransform.getModelMatrix());
-		sphereMesh.draw();
-
-		shader.setMat4("_Model", cylinderTransform.getModelMatrix());
-		cylinderMesh.draw();
-
+		shader.setMat4("_Model", waterTransform.getModelMatrix());
+		waterMesh.draw();
 
 		//Render UI
 		{
