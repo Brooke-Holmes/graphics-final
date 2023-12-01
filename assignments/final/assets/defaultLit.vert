@@ -19,5 +19,6 @@ void main(){
 	vs_out.WorldPosition = (_Model * vec4(vPos, 1.0f)).xyz;//.xyz is called swizzling
 	//calculate vs_out WorldNormal
 	vs_out.WorldNormal = normalize(_Model * vec4(vNormal, 0.0f)).xyz;
+	//mat3(transpose(inverse(_Model))) * vNormal;
 	gl_Position = _ViewProjection * _Model * vec4(vPos,1.0);
 }
