@@ -127,8 +127,8 @@ int main() {
 
 
 	//Create meshes and transforms
-	ew::Mesh sandMesh(ew::createPlane(100.0f, 100.0f, 10));
-	ew::Mesh waterMesh(ew::createPlane(100.0f, 100.0f, 10));
+	ew::Mesh sandMesh(ew::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10));
+	ew::Mesh waterMesh(ew::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10));
 	ew::Mesh seaweedMesh(ew::createPlane(10.0f, 20.0f, 10));
 
 	ew::Transform sandTransform;
