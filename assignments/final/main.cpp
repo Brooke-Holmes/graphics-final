@@ -25,6 +25,7 @@ int SCREEN_HEIGHT = 720;
 
 float SAND_HEIGHT = -10.0f;
 float WATER_HEIGHT = 10.0f;
+float PLANE_WIDTH = 100.0f;
 
 
 float prevTime;
@@ -59,13 +60,29 @@ struct Material
 //Clamps the camera within the world border
 void clampCameraPos(ew::Camera& camera)
 {
-	if (camera.position.y <= SAND_HEIGHT)
+	if (camera.position.y <= SAND_HEIGHT+0.1f)
 	{
-		camera.position.y = SAND_HEIGHT + 0.1f;
+		camera.position.y = SAND_HEIGHT+0.1f;
 	}
-	if (camera.position.y >= WATER_HEIGHT)
+	if (camera.position.y >= WATER_HEIGHT-0.1f)
 	{
-		camera.position.y = WATER_HEIGHT - 0.1f;
+		camera.position.y = WATER_HEIGHT-0.1f;
+	}
+	if (camera.position.x <= -PLANE_WIDTH/2.0f)
+	{
+		camera.position.x =  (-PLANE_WIDTH / 2.0f);
+	}
+	if (camera.position.x >= (PLANE_WIDTH / 2.0f))
+	{
+		camera.position.x = (PLANE_WIDTH / 2.0f);
+	}
+	if (camera.position.z <= (-PLANE_WIDTH / 2.0f))
+	{
+		camera.position.z = (-PLANE_WIDTH / 2.0f);
+	}
+	if (camera.position.z >= (PLANE_WIDTH / 2.0f))
+	{
+		camera.position.z = (PLANE_WIDTH / 2.0f);
 	}
 }
 
