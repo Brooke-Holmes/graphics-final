@@ -172,6 +172,7 @@ int main() {
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
+		glEnable(GL_CULL_FACE);
 
 		float time = (float)glfwGetTime();
 		float deltaTime = time - prevTime;
@@ -228,8 +229,10 @@ int main() {
 		shader.setMat4("_Model", sandTransform.getModelMatrix());
 		sandMesh.draw();
 
+		glDisable(GL_CULL_FACE);
 		shader.setMat4("_Model", waterTransform.getModelMatrix());
 		waterMesh.draw();
+		glEnable(GL_CULL_FACE);
 
 		shader.setMat4("_Model", seaweedTransform.getModelMatrix());
 		seaweedMesh.draw();
@@ -327,3 +330,13 @@ void resetCamera(ew::Camera& camera, ew::CameraController& cameraController) {
 	cameraController.pitch = 0.0f;
 }
 
+/* Code to toggle backface culling
+* or we could just flip the water plane/draw two planes
+
+if (ImGui::Checkbox("Back-face culling", &appSettings.backFaceCulling)) {
+				if (appSettings.backFaceCulling)
+					glEnable(GL_CULL_FACE);
+				else
+					glDisable(GL_CULL_FACE);
+			}
+*/
