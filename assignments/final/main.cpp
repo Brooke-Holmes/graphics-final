@@ -52,6 +52,26 @@ struct Material
 	float shininess;//shininess
 };
 
+////////////////\\\\\\\\\\\\\\\\
+//////FUNCTIONS START HERE\\\\\\
+\\\\\\\\\\\\\\\\////////////////
+
+//Clamps the camera within the world border
+void clampCameraPos(ew::Camera& camera)
+{
+	if (camera.position.y <= SAND_HEIGHT)
+	{
+		camera.position.y = SAND_HEIGHT + 0.1f;
+	}
+	if (camera.position.y >= WATER_HEIGHT)
+	{
+		camera.position.y = WATER_HEIGHT - 0.1f;
+	}
+}
+
+
+//MAIN
+
 int main() {
 	printf("Initializing...");
 	if (!glfwInit()) {
@@ -141,6 +161,7 @@ int main() {
 		//Update camera
 		camera.aspectRatio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;
 		cameraController.Move(window, &camera, deltaTime);
+		clampCameraPos(camera);
 		shader.setVec3("cameraPos", camera.position);
 		shader.setBool("BP", bp);
 		shader.setInt("numLights", numLights);
@@ -286,5 +307,4 @@ void resetCamera(ew::Camera& camera, ew::CameraController& cameraController) {
 	cameraController.yaw = 0.0f;
 	cameraController.pitch = 0.0f;
 }
-
 
