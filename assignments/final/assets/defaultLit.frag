@@ -1,4 +1,4 @@
-//copy of autumns assingment 7
+//copy of autumn's assingment 7
 #version 450
 out vec4 FragColor;
 
@@ -48,15 +48,16 @@ void main(){
 	float diff = max(dot(normal, lightVector), 0);
 	vec3 r;
 	float spec;
+	if(dot(lightVector, normal) >= 0.0){
 	if(BP){ 
 		r = normalize(lightVector + cameraVector);
-		spec = pow(max(dot(fs_in.WorldNormal, r), 0), _Material.shininess);
+		spec = pow(max(dot(normal, r), 0.0f), _Material.shininess);
 	}
 	else{ 
-		r = reflect(-1*lightVector, fs_in.WorldNormal);
-		spec = pow(max(dot(cameraVector, r), 0), _Material.shininess);	
+		r = reflect(-1*lightVector, normal);
+		spec = pow(max(dot(cameraVector, r), 0.0f), _Material.shininess);	
 	}
-	
+	}
 
 	vec3 diffuse = _Light[i].color * diff * _Material.diffuseK;
 	vec3 specular = _Light[i].color * spec * _Material.specularK;

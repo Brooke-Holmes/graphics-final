@@ -23,8 +23,8 @@ void resetCamera(ew::Camera& camera, ew::CameraController& cameraController);
 int SCREEN_WIDTH = 1080;
 int SCREEN_HEIGHT = 720;
 
-float SAND_HEIGHT = -20;
-float WATER_HEIGHT = 20;
+float SAND_HEIGHT = -10.0f;
+float WATER_HEIGHT = 10.0f;
 
 
 float prevTime;
@@ -110,8 +110,8 @@ int main() {
 
 
 	//Create meshes and transforms
-	ew::Mesh sandMesh(ew::createPlane(50.0f, 50.0f, 10));
-	ew::Mesh waterMesh(ew::createPlane(50.0f, 50.0f, 10));
+	ew::Mesh sandMesh(ew::createPlane(100.0f, 100.0f, 10));
+	ew::Mesh waterMesh(ew::createPlane(100.0f, 100.0f, 10));
 	ew::Mesh seaweedMesh(ew::createPlane(10.0f, 20.0f, 10));
 
 	ew::Transform sandTransform;
@@ -131,7 +131,7 @@ int main() {
 
 
 	Light light[MAX_LIGHTS];
-	ew::Mesh lightMesh(ew::createSphere(5.0f, 64));
+	ew::Mesh lightMesh(ew::createSphere(2.5f, 64));
 
 	light[0].position = ew::Vec3(0.0f, 2.0f, 0.0f);
 	light[0].color = ew::Vec3(1.0f, 0.0f, 0.0f);
