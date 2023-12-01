@@ -25,6 +25,7 @@ int SCREEN_HEIGHT = 720;
 
 float SAND_HEIGHT = -10.0f;
 float WATER_HEIGHT = 10.0f;
+float SEAWEED_HEIGHT = 10.0f; //actual height of the seaweed, not the height it's at
 float PLANE_WIDTH = 100.0f;
 
 
@@ -129,7 +130,7 @@ int main() {
 	//Create meshes and transforms
 	ew::Mesh sandMesh(ew::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10));
 	ew::Mesh waterMesh(ew::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10));
-	ew::Mesh seaweedMesh(ew::createPlane(10.0f, 20.0f, 10));
+	ew::Mesh seaweedMesh(ew::createPlane(5.0f, SEAWEED_HEIGHT, 5));
 
 	ew::Transform sandTransform;
 	ew::Transform waterTransform;
@@ -137,7 +138,8 @@ int main() {
 
 	sandTransform.position = ew::Vec3(0, SAND_HEIGHT, 0);
 	waterTransform.position = ew::Vec3(0, WATER_HEIGHT, 0);
-	seaweedTransform.position = ew::Vec3(0, SAND_HEIGHT, 0);
+	seaweedTransform.position = ew::Vec3(0, SAND_HEIGHT + SEAWEED_HEIGHT / 2.0f, 0);
+	seaweedTransform.rotation = ew::Vec3(90, 90, 90);
 
 
 	Material material;
