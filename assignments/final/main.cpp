@@ -65,9 +65,9 @@ void clampCameraPos(ew::Camera& camera)
 	{
 		camera.position.y = SAND_HEIGHT+0.1f;
 	}
-	if (camera.position.y >= WATER_HEIGHT-0.1f)
+	if (camera.position.y >= WATER_HEIGHT+0.4f)
 	{
-		camera.position.y = WATER_HEIGHT-0.1f;
+		camera.position.y = WATER_HEIGHT+0.4f;
 	}
 	if (camera.position.x <= -PLANE_WIDTH/2.0f)
 	{
@@ -125,6 +125,8 @@ int main() {
 	ew::Shader lightShader("assets/unlit.vert", "assets/unlit.frag");
 	unsigned int brickTexture = ew::loadTexture("assets/brick_color.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int seaweedTexture = ew::loadTexture("assets/seaweed.jpg", GL_REPEAT, GL_LINEAR);
+	unsigned int waterTexture = ew::loadTexture("assets/water_texture.jpg", GL_REPEAT, GL_LINEAR);
+	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_REPEAT, GL_LINEAR);
 
 
 	//Create meshes and transforms
@@ -226,14 +228,20 @@ int main() {
 		shader.setMat4("_ViewProjection", camera.ProjectionMatrix() * camera.ViewMatrix());
 
 		//Draw shapes
+		glBindTexture(GL_TEXTURE_2D, sandTexture);
+		shader.setInt("_Texture", 0);
 		shader.setMat4("_Model", sandTransform.getModelMatrix());
 		sandMesh.draw();
 
 		glDisable(GL_CULL_FACE);
+		glBindTexture(GL_TEXTURE_2D, waterTexture);
+		shader.setInt("_Texture", 0);
 		shader.setMat4("_Model", waterTransform.getModelMatrix());
 		waterMesh.draw();
 		glEnable(GL_CULL_FACE);
 
+		glBindTexture(GL_TEXTURE_2D, seaweedTexture);
+		shader.setInt("_Texture", 0);
 		shader.setMat4("_Model", seaweedTransform.getModelMatrix());
 		seaweedMesh.draw();
 
