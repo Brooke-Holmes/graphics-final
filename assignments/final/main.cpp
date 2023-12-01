@@ -25,7 +25,11 @@ int SCREEN_HEIGHT = 720;
 
 float SAND_HEIGHT = -10.0f;
 float WATER_HEIGHT = 10.0f;
+<<<<<<< HEAD
 float SEAWEED_HEIGHT = 10.0f; //actual height of the seaweed, not the height it's at
+=======
+float PLANE_WIDTH = 100.0f;
+>>>>>>> 3d682f30b903b249f2bb81ccaf9a6b1df1e99819
 
 
 float prevTime;
@@ -52,6 +56,42 @@ struct Material
 	float specularK; //Specular coefficient (0-1)
 	float shininess;//shininess
 };
+
+////////////////\\\\\\\\\\\\\\\\
+//////FUNCTIONS START HERE\\\\\\
+\\\\\\\\\\\\\\\\////////////////
+
+//Clamps the camera within the world border
+void clampCameraPos(ew::Camera& camera)
+{
+	if (camera.position.y <= SAND_HEIGHT+0.1f)
+	{
+		camera.position.y = SAND_HEIGHT+0.1f;
+	}
+	if (camera.position.y >= WATER_HEIGHT-0.1f)
+	{
+		camera.position.y = WATER_HEIGHT-0.1f;
+	}
+	if (camera.position.x <= -PLANE_WIDTH/2.0f)
+	{
+		camera.position.x =  (-PLANE_WIDTH / 2.0f);
+	}
+	if (camera.position.x >= (PLANE_WIDTH / 2.0f))
+	{
+		camera.position.x = (PLANE_WIDTH / 2.0f);
+	}
+	if (camera.position.z <= (-PLANE_WIDTH / 2.0f))
+	{
+		camera.position.z = (-PLANE_WIDTH / 2.0f);
+	}
+	if (camera.position.z >= (PLANE_WIDTH / 2.0f))
+	{
+		camera.position.z = (PLANE_WIDTH / 2.0f);
+	}
+}
+
+
+//MAIN
 
 int main() {
 	printf("Initializing...");
@@ -143,6 +183,7 @@ int main() {
 		//Update camera
 		camera.aspectRatio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;
 		cameraController.Move(window, &camera, deltaTime);
+		clampCameraPos(camera);
 		shader.setVec3("cameraPos", camera.position);
 		shader.setBool("BP", bp);
 		shader.setInt("numLights", numLights);
@@ -288,5 +329,4 @@ void resetCamera(ew::Camera& camera, ew::CameraController& cameraController) {
 	cameraController.yaw = 0.0f;
 	cameraController.pitch = 0.0f;
 }
-
 
