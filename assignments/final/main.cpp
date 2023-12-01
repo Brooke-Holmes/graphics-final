@@ -25,11 +25,8 @@ int SCREEN_HEIGHT = 720;
 
 float SAND_HEIGHT = -10.0f;
 float WATER_HEIGHT = 10.0f;
-<<<<<<< HEAD
 float SEAWEED_HEIGHT = 10.0f; //actual height of the seaweed, not the height it's at
-=======
 float PLANE_WIDTH = 100.0f;
->>>>>>> 3d682f30b903b249f2bb81ccaf9a6b1df1e99819
 
 
 float prevTime;
