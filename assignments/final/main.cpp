@@ -86,17 +86,21 @@ int main() {
 	ew::Shader shader("assets/defaultLit.vert", "assets/defaultLit.frag");
 	ew::Shader lightShader("assets/unlit.vert", "assets/unlit.frag");
 	unsigned int brickTexture = ew::loadTexture("assets/brick_color.jpg", GL_REPEAT, GL_LINEAR);
+	unsigned int seaweedTexture = ew::loadTexture("assets/seaweed.jpg", GL_REPEAT, GL_LINEAR);
 
 
 	//Create meshes and transforms
 	ew::Mesh sandMesh(ew::createPlane(100.0f, 100.0f, 10));
 	ew::Mesh waterMesh(ew::createPlane(100.0f, 100.0f, 10));
+	ew::Mesh seaweedMesh(ew::createPlane(10.0f, 20.0f, 10));
 
 	ew::Transform sandTransform;
 	ew::Transform waterTransform;
+	ew::Transform seaweedTransform;
 
 	sandTransform.position = ew::Vec3(0, SAND_HEIGHT, 0);
 	waterTransform.position = ew::Vec3(0, WATER_HEIGHT, 0);
+	seaweedTransform.position = ew::Vec3(0, SAND_HEIGHT, 0);
 
 
 	Material material;
@@ -167,7 +171,6 @@ int main() {
 		glClearColor(bgColor.x, bgColor.y, bgColor.z, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//TODO: Render point lights
 		lightShader.use();
 		for (int i = 0; i < numLights; i++) {
 			lightShader.setMat4("_Model", lightTransform[i].getModelMatrix());
@@ -175,7 +178,6 @@ int main() {
 			lightShader.setVec3("_Color", light[i].color);
 			lightMesh.draw();
 		}
-
 
 		shader.use();
 		glBindTexture(GL_TEXTURE_2D, brickTexture);
@@ -188,6 +190,9 @@ int main() {
 
 		shader.setMat4("_Model", waterTransform.getModelMatrix());
 		waterMesh.draw();
+
+		shader.setMat4("_Model", seaweedTransform.getModelMatrix());
+		seaweedMesh.draw();
 
 		//Render UI
 		{
