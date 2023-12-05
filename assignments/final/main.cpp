@@ -130,7 +130,7 @@ int main() {
 	unsigned int brickTexture = ew::loadTexture("assets/brick_color.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int seaweedTexture = ew::loadTexture("assets/seaweed.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int waterTexture = ew::loadTexture("assets/water_texture.jpg", GL_REPEAT, GL_LINEAR);
-	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_REPEAT, GL_LINEAR);
+	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_MIRRORED_REPEAT, GL_LINEAR);
 
 
 	//Create meshes and transforms
