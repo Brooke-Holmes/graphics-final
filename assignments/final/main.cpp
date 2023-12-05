@@ -142,6 +142,7 @@ int main() {
 	ew::Transform waterTransform;
 	ew::Transform seaweedTransform;
 
+	//if we turn off perSegment on the sandplane, set the position back to (0, height, 0)
 	sandTransform.position = ew::Vec3(-(PLANE_WIDTH/2.0f), SAND_HEIGHT, (PLANE_WIDTH / 2.0f));
 	waterTransform.position = ew::Vec3(0, WATER_HEIGHT, 0);
 	seaweedTransform.position = ew::Vec3(0, SAND_HEIGHT + SEAWEED_HEIGHT / 2.0f, 0);
