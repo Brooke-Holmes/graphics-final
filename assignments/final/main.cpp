@@ -17,6 +17,9 @@
 #include <ew/cameraController.h>
 #include <string>
 
+
+#include <anm/procGen.h>
+
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void resetCamera(ew::Camera& camera, ew::CameraController& cameraController);
 
@@ -127,11 +130,11 @@ int main() {
 	unsigned int brickTexture = ew::loadTexture("assets/brick_color.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int seaweedTexture = ew::loadTexture("assets/seaweed.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int waterTexture = ew::loadTexture("assets/water_texture.jpg", GL_REPEAT, GL_LINEAR);
-	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_REPEAT, GL_LINEAR);
+	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_MIRRORED_REPEAT, GL_LINEAR);
 
 
 	//Create meshes and transforms
-	ew::Mesh sandMesh(ew::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10));
+	ew::Mesh sandMesh(anm::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10, true));
 	ew::Mesh waterMesh(ew::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10));
 	ew::Mesh seaweedMesh(ew::createPlane(5.0f, SEAWEED_HEIGHT, 5));
 
@@ -139,7 +142,8 @@ int main() {
 	ew::Transform waterTransform;
 	ew::Transform seaweedTransform;
 
-	sandTransform.position = ew::Vec3(0, SAND_HEIGHT, 0);
+	//if we turn off perSegment on the sandplane, set the position back to (0, height, 0)
+	sandTransform.position = ew::Vec3(-(PLANE_WIDTH/2.0f), SAND_HEIGHT, (PLANE_WIDTH / 2.0f));
 	waterTransform.position = ew::Vec3(0, WATER_HEIGHT, 0);
 	seaweedTransform.position = ew::Vec3(0, SAND_HEIGHT + SEAWEED_HEIGHT / 2.0f, 0);
 	seaweedTransform.rotation = ew::Vec3(90, 90, 90);
