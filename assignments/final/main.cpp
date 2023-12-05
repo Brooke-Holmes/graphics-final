@@ -187,10 +187,7 @@ int main() {
 		clampCameraPos(camera);
 		shader.setVec3("cameraPos", camera.position);
 		shader.setBool("BP", bp);
-		shader.setInt("numLights", numLights);
-
-		//BG
-		
+		shader.setInt("numLights", numLights);		
 
 		shader.setVec3("_Light[0].color", light[0].color);
 		shader.setVec3("_Light[0].position", light[0].position);
