@@ -30,12 +30,13 @@ float PLANE_WIDTH = 100.0f;
 
 
 float prevTime;
-ew::Vec3 bgColor = ew::Vec3(0.1f);
+ew::Vec3 bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f)/255.0f);
 
 ew::Camera camera;
 ew::CameraController cameraController;
 
 bool bp = true;
+bool isBrick = false;
 
 const int MAX_LIGHTS = 3;
 int numLights = 1;
@@ -188,6 +189,9 @@ int main() {
 		shader.setBool("BP", bp);
 		shader.setInt("numLights", numLights);
 
+		//BG
+		
+
 		shader.setVec3("_Light[0].color", light[0].color);
 		shader.setVec3("_Light[0].position", light[0].position);
 		lightTransform[0].position = light[0].position;
@@ -204,11 +208,15 @@ int main() {
 		shader.setVec3("_Material.diffuseK", material.diffuseK);
 		shader.setVec3("_Material.specularK", material.specularK);
 		shader.setFloat("_Material.shininess", material.shininess);
+		/*
 		ew::Vec3 allColor;
 		for (int i = 0; i < numLights; i++) {
 			allColor += light[i].color;
 		}
-		shader.setVec3("ambientColor", allColor);
+		*/
+		shader.setVec3("ambientColor", bgColor);
+
+		
 
 		//RENDER
 		glClearColor(bgColor.x, bgColor.y, bgColor.z, 1.0f);
@@ -228,19 +236,28 @@ int main() {
 		shader.setMat4("_ViewProjection", camera.ProjectionMatrix() * camera.ViewMatrix());
 
 		//Draw shapes
-		glBindTexture(GL_TEXTURE_2D, sandTexture);
+		if (!isBrick)
+		{
+			glBindTexture(GL_TEXTURE_2D, sandTexture);
+		}
 		shader.setInt("_Texture", 0);
 		shader.setMat4("_Model", sandTransform.getModelMatrix());
 		sandMesh.draw();
 
 		glDisable(GL_CULL_FACE);
-		glBindTexture(GL_TEXTURE_2D, waterTexture);
+		if (!isBrick)
+		{
+			glBindTexture(GL_TEXTURE_2D, waterTexture);
+		}
 		shader.setInt("_Texture", 0);
 		shader.setMat4("_Model", waterTransform.getModelMatrix());
 		waterMesh.draw();
 		glEnable(GL_CULL_FACE);
-
-		glBindTexture(GL_TEXTURE_2D, seaweedTexture);
+		
+		if (!isBrick)
+		{
+			glBindTexture(GL_TEXTURE_2D, seaweedTexture);
+		}
 		shader.setInt("_Texture", 0);
 		shader.setMat4("_Model", seaweedTransform.getModelMatrix());
 		seaweedMesh.draw();
@@ -305,6 +322,18 @@ int main() {
 			}
 			if (ImGui::DragFloat("Shininess", &material.shininess, 1.0f, 2.0f, 256.0f)) {
 				shader.setFloat("_Material.shininess", material.shininess);
+			}
+			if (ImGui::Checkbox("Brick", &isBrick))
+			{
+				isBrick == true;
+				if (isBrick)
+				{
+					bgColor = (ew::Vec3(255.0f, 111.0f, 111.0f)/255.0f);
+				}
+				else
+				{
+					bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f)/255.0f);
+				}
 			}
 
 			ImGui::End();
