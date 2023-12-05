@@ -143,6 +143,14 @@ int main() {
 	seaweedTransform.position = ew::Vec3(0, SAND_HEIGHT + SEAWEED_HEIGHT / 2.0f, 0);
 	seaweedTransform.rotation = ew::Vec3(90, 90, 90);
 
+	ew::Vec3 CameraRight_worldspace = {camera.ViewMatrix()[0][0], camera.ViewMatrix()[1][0], camera.ViewMatrix()[2][0]};
+	ew::Vec3 CameraUp_worldspace = {camera.ViewMatrix()[0][1], camera.ViewMatrix()[1][1], camera.ViewMatrix()[2][1]};
+
+	//FIX THIS BY ADDING getX TO MESH VVV
+	//ew::Vec3 vertexPosition_worldspace = seaweedTransform.position
+		//+ CameraRight_worldspace * seaweedMesh. * BillboardSize.x
+		//+ CameraUp_worldspace * squareVertices.y * BillboardSize.y;
+
 
 	Material material;
 	material.diffuseK = 0.0f;
