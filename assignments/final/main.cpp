@@ -77,19 +77,19 @@ void clampCameraPos(ew::Camera& camera)
 	}
 	if (camera.position.x <= -PLANE_WIDTH/2.0f)
 	{
-		camera.position.x =  (-PLANE_WIDTH / 2.0f);
+		camera.position.x =  (PLANE_WIDTH / 2.0f) - 1.0f;
 	}
 	if (camera.position.x >= (PLANE_WIDTH / 2.0f))
 	{
-		camera.position.x = (PLANE_WIDTH / 2.0f);
+		camera.position.x = (-PLANE_WIDTH / 2.0f) + 0.1f;
 	}
 	if (camera.position.z <= (-PLANE_WIDTH / 2.0f))
 	{
-		camera.position.z = (-PLANE_WIDTH / 2.0f);
+		camera.position.z = (PLANE_WIDTH / 2.0f) - 0.1f;
 	}
 	if (camera.position.z >= (PLANE_WIDTH / 2.0f))
 	{
-		camera.position.z = (PLANE_WIDTH / 2.0f);
+		camera.position.z = (-PLANE_WIDTH / 2.0f) + 0.1f;
 	}
 }
 
