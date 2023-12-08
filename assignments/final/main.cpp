@@ -38,6 +38,8 @@ ew::Vec3 bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f)/255.0f);
 ew::Camera camera;
 ew::CameraController cameraController;
 
+ew::Mat4 viewMatrix = camera.ViewMatrix();
+
 bool bp = true;
 bool isBrick = false;
 
@@ -146,15 +148,16 @@ int main() {
 	sandTransform.position = ew::Vec3(-(PLANE_WIDTH/2.0f), SAND_HEIGHT, (PLANE_WIDTH / 2.0f));
 	waterTransform.position = ew::Vec3(0, WATER_HEIGHT, 0);
 	seaweedTransform.position = ew::Vec3(0, SAND_HEIGHT + SEAWEED_HEIGHT / 2.0f, 0);
-	seaweedTransform.rotation = ew::Vec3(90, 90, 90);
+	//seaweedTransform.rotation = ew::Vec3(90, 90, 90);
 
-	ew::Vec3 CameraRight_worldspace = {camera.ViewMatrix()[0][0], camera.ViewMatrix()[1][0], camera.ViewMatrix()[2][0]};
-	ew::Vec3 CameraUp_worldspace = {camera.ViewMatrix()[0][1], camera.ViewMatrix()[1][1], camera.ViewMatrix()[2][1]};
+	//ew::Vec3 CameraRight_worldspace = {camera.ViewMatrix()[0][0], camera.ViewMatrix()[1][0], camera.ViewMatrix()[2][0]};
+	//ew::Vec3 CameraUp_worldspace = {camera.ViewMatrix()[0][1], camera.ViewMatrix()[1][1], camera.ViewMatrix()[2][1]};
 
-	//FIX THIS BY ADDING getX TO MESH VVV
-	//ew::Vec3 vertexPosition_worldspace = seaweedTransform.position
-		//+ CameraRight_worldspace * seaweedMesh. * BillboardSize.x
-		//+ CameraUp_worldspace * squareVertices.y * BillboardSize.y;
+	//FIX THIS vvv 
+	/*ew::Vec3 vertexPosition_worldspace = seaweedTransform.position
+		+ CameraRight_worldspace * seaweedTransform.position.x * SEAWEED_HEIGHT
+		+ CameraUp_worldspace * seaweedTransform.position.y * 5.0f;
+	seaweedTransform.rotation = vertexPosition_worldspace;*/
 
 
 	Material material;
@@ -263,6 +266,15 @@ int main() {
 		waterMesh.draw();
 		glEnable(GL_CULL_FACE);
 		
+		ew::Vec3 CameraRight_worldspace = { camera.ViewMatrix()[0][0], camera.ViewMatrix()[1][0], camera.ViewMatrix()[2][0] };
+		ew::Vec3 CameraUp_worldspace = { camera.ViewMatrix()[0][1], camera.ViewMatrix()[1][1], camera.ViewMatrix()[2][1] };
+		ew::Vec3 position = seaweedMesh.getPos(ew::createPlane(5.0f, SEAWEED_HEIGHT, 5));
+
+		ew::Vec3 vertexPosition_worldspace = seaweedTransform.position
+			+ CameraRight_worldspace * position.x * SEAWEED_HEIGHT
+			+ CameraUp_worldspace * position.y * 5.0f;
+		seaweedTransform.rotation = vertexPosition_worldspace;
+
 		if (!isBrick)
 		{
 			glBindTexture(GL_TEXTURE_2D, seaweedTexture);
