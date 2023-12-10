@@ -16,6 +16,7 @@
 #include <ew/camera.h>
 #include <ew/cameraController.h>
 #include <string>
+#include <anm/noise.h>
 
 
 #include <anm/procGen.h>
@@ -31,6 +32,8 @@ float WATER_HEIGHT = 10.0f;
 float SEAWEED_HEIGHT = 10.0f; //actual height of the seaweed, not the height it's at
 float PLANE_WIDTH = 100.0f;
 
+
+ew::Vec2* points = anm::createPoints(7, -(PLANE_WIDTH/2.0f), (PLANE_WIDTH / 2.0f), -(PLANE_WIDTH / 2.0f), (PLANE_WIDTH / 2.0f));
 
 float prevTime;
 ew::Vec3 bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f)/255.0f);
