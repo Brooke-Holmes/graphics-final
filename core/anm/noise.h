@@ -24,4 +24,32 @@ namespace anm {
 		}
 		return points;
 	}
+
+	std::vector<float> calcDistance(std::vector<ew::Vec3> vertices, ew::Vec2* points)
+	{
+		std::vector<float> distance;
+		for (int i = 0; i < vertices.size(); i++) 
+		{
+			float xDist = vertices[i].x - points[0].x;
+			float yDist = vertices[i].y - points[0].y;
+			float dist = sqrt((pow(xDist,2.0f) + pow(yDist, 2.0f)));
+			for (int j = 1; j < sizeof(points); j++)
+			{
+				xDist = vertices[i].x - points[j].x;
+				yDist = vertices[i].y - points[j].y;
+				float newDist = sqrt((pow(xDist, 2.0f) + pow(yDist, 2.0f)));
+				if (newDist < dist) { dist = newDist; }
+			}
+			distance.push_back(dist);
+		}
+		return distance;
+	}
+
+	/*void skewPoints() 
+	{
+		
+	}*/
 }
+
+//https://catlikecoding.com/unity/tutorials/pseudorandom-noise/simplex-noise/
+//https://muugumuugu.github.io/bOOkshelF/generative%20art/simplexnoise.pdf

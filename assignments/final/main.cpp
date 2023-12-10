@@ -35,6 +35,7 @@ float PLANE_WIDTH = 100.0f;
 
 ew::Vec2* points = anm::createPoints(7, -(PLANE_WIDTH/2.0f), (PLANE_WIDTH / 2.0f), -(PLANE_WIDTH / 2.0f), (PLANE_WIDTH / 2.0f));
 
+
 float prevTime;
 ew::Vec3 bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f)/255.0f);
 
@@ -158,12 +159,18 @@ int main() {
 
 	//FIX THIS vvv 
 	//creates an array of Vec3s, then fills it in with the MeshData of the seaweed plane
-	ew::Vec3 seaweedCorners[4];
+	ew::Vec3 seaweedCorners[4];//makes an array to hold just the positions of the corners
 	seaweedMesh.planeCorners(seaweedCorners, 6); // 6 should be the number of columns on the plane
 	/*ew::Vec3 vertexPosition_worldspace = seaweedTransform.position
 		+ CameraRight_worldspace * seaweedTransform.position.x * SEAWEED_HEIGHT
 		+ CameraUp_worldspace * seaweedTransform.position.y * 5.0f;
 	seaweedTransform.rotation = vertexPosition_worldspace;*/
+
+	//Noise stuff
+	std::vector<float> distances;
+	std::vector<ew::Vec3> waterVertices;
+	waterMesh.getPosData(waterVertices);
+	distances = anm::calcDistance(waterVertices, points);
 
 
 	Material material;
@@ -272,14 +279,6 @@ int main() {
 		waterMesh.draw();
 		glEnable(GL_CULL_FACE);
 		
-		ew::Vec3 CameraRight_worldspace = { camera.ViewMatrix()[0][0], camera.ViewMatrix()[1][0], camera.ViewMatrix()[2][0] };
-		ew::Vec3 CameraUp_worldspace = { camera.ViewMatrix()[0][1], camera.ViewMatrix()[1][1], camera.ViewMatrix()[2][1] };
-		ew::Vec3 position = seaweedMesh.getPos(ew::createPlane(5.0f, SEAWEED_HEIGHT, 5));
-
-		ew::Vec3 vertexPosition_worldspace = seaweedTransform.position
-			+ CameraRight_worldspace * position.x * SEAWEED_HEIGHT
-			+ CameraUp_worldspace * position.y * 5.0f;
-		seaweedTransform.rotation = vertexPosition_worldspace;
 
 		if (!isBrick)
 		{

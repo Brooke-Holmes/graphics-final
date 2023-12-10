@@ -33,10 +33,12 @@ namespace ew {
 		inline int getNumVertices()const { return m_numVertices; }
 		inline int getNumIndices()const { return m_numIndices; }
 		inline int getVBO()const { return m_vbo; }
-		ew::Vec3 getPos(MeshData& meshData)
+		void getPosData(std::vector<ew::Vec3>& positions)//returns all the positions
 		{
-			return meshData.vertices[1].pos;
-			//make this work for all vertices
+			for (int i = 0; i < m_numVertices; i++) 
+			{
+				positions.push_back(theData.vertices[i].pos);
+			}
 		}
 		void planeCorners(ew::Vec3* corners, int width = 6) //width should be the number of columns
 		{
