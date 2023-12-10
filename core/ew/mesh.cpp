@@ -9,6 +9,7 @@
 namespace ew {
 	Mesh::Mesh(const MeshData& meshData)
 	{
+		theData = meshData;
 		load(meshData);
 	}
 	void Mesh::load(const MeshData& meshData)

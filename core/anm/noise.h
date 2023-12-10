@@ -16,10 +16,10 @@ namespace anm {
 		ew::Vec2* points = new ew::Vec2[numPoints];
 		for (int i = 0; i < numPoints; i++)  
 		{
-			std::uniform_int_distribution<> distrib(xMin, xMax);
-			int xVal = distrib(rng);
-			std::uniform_int_distribution<> distrib(yMin, yMax);
-			int yVal = distrib(rng);
+			std::uniform_int_distribution<> distribX(xMin, xMax);
+			int xVal = distribX(rng);
+			std::uniform_int_distribution<> distribY(yMin, yMax);
+			int yVal = distribY(rng);
 			points[i] = ew::Vec2(xVal, yVal);
 		}
 		return points;

@@ -157,6 +157,9 @@ int main() {
 	//ew::Vec3 CameraUp_worldspace = {camera.ViewMatrix()[0][1], camera.ViewMatrix()[1][1], camera.ViewMatrix()[2][1]};
 
 	//FIX THIS vvv 
+	//creates an array of Vec3s, then fills it in with the MeshData of the seaweed plane
+	ew::Vec3 seaweedCorners[4];
+	seaweedMesh.planeCorners(seaweedCorners, 6); // 6 should be the number of columns on the plane
 	/*ew::Vec3 vertexPosition_worldspace = seaweedTransform.position
 		+ CameraRight_worldspace * seaweedTransform.position.x * SEAWEED_HEIGHT
 		+ CameraUp_worldspace * seaweedTransform.position.y * 5.0f;

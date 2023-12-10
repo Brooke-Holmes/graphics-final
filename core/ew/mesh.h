@@ -26,7 +26,7 @@ namespace ew {
 
 	class Mesh {
 	public:
-		Mesh() {};
+		Mesh();
 		Mesh(const MeshData& meshData);
 		void load(const MeshData& meshData);
 		void draw(DrawMode drawMode = DrawMode::TRIANGLES)const;
@@ -38,6 +38,15 @@ namespace ew {
 			return meshData.vertices[1].pos;
 			//make this work for all vertices
 		}
+		void planeCorners(ew::Vec3* corners, int width = 6) //width should be the number of columns
+		{
+			int end = m_numVertices-1;
+
+			corners[0] = theData.vertices[0].pos;
+			corners[1] = theData.vertices[width-1].pos;
+			corners[2] = theData.vertices[end-width].pos;
+			corners[3] = theData.vertices[end].pos;		}
+		ew::MeshData getData() { return theData; }
 	private:
 		bool m_initialized = false;
 		unsigned int m_vao = 0;
@@ -45,5 +54,6 @@ namespace ew {
 		unsigned int m_ebo = 0;
 		int m_numVertices = 0;
 		int m_numIndices = 0;
+		MeshData theData;
 	};
 }
