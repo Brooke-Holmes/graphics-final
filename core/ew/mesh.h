@@ -10,6 +10,8 @@ namespace ew {
 		ew::Vec3 pos;
 		ew::Vec3 normal;
 		ew::Vec2 uv;
+
+		inline ew::Vec3 getPos()const { return pos; }
 	};
 
 	struct MeshData {
@@ -30,6 +32,12 @@ namespace ew {
 		void draw(DrawMode drawMode = DrawMode::TRIANGLES)const;
 		inline int getNumVertices()const { return m_numVertices; }
 		inline int getNumIndices()const { return m_numIndices; }
+		inline int getVBO()const { return m_vbo; }
+		ew::Vec3 getPos(MeshData& meshData)
+		{
+			return meshData.vertices[1].pos;
+			//make this work for all vertices
+		}
 	private:
 		bool m_initialized = false;
 		unsigned int m_vao = 0;
