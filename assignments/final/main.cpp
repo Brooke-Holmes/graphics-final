@@ -19,7 +19,7 @@
 #include <anm/noise.h>
 
 
-#include <anm/procGen.h>
+#include <anm/myProcGen.h>
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void resetCamera(ew::Camera& camera, ew::CameraController& cameraController);
