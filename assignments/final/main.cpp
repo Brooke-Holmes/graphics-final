@@ -44,6 +44,9 @@ ew::Mat4 viewMatrix = camera.ViewMatrix();
 
 bool bp = true;
 bool isBrick = false;
+int planeSeg = 25;
+int wGrid = 6;
+int vNumPoints = 50;
 
 const int MAX_LIGHTS = 3;
 int numLights = 1;
@@ -138,14 +141,14 @@ int main() {
 	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_MIRRORED_REPEAT, GL_LINEAR);
 
 	//Noise generation by Autumn
-	anm::Noise voronoi(50, PLANE_WIDTH, PLANE_WIDTH);
-	anm::Noise worley(PLANE_WIDTH, 6);
+	anm::Noise voronoi(vNumPoints, PLANE_WIDTH, PLANE_WIDTH);
+	anm::Noise worley(PLANE_WIDTH, wGrid);
 	std::vector<ew::Vec2> pointsV = voronoi.getPoints();
 	std::vector<ew::Vec2> pointsW = worley.getPoints();
 
 	//Create meshes and transforms
 	anm::Mesh sandMesh(anm::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10, true));
-	anm::Mesh waterMesh(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 25, false, false, pointsV));
+	anm::Mesh waterMesh(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, planeSeg, false, false, pointsV));
 	ew::Mesh seaweedMesh(ew::createPlane(5.0f, SEAWEED_HEIGHT, 5));
 
 	ew::Transform sandTransform;
@@ -381,11 +384,22 @@ int main() {
 			//Noise toggle buttons - Autumn 
 			if (ImGui::Button("Voronoi")) 
 			{
-				waterMesh.load(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 25, false, true, pointsV));
+				waterMesh.load(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, planeSeg, false, true, pointsV));
 			}
 			if (ImGui::Button("Worley"))
 			{
-				waterMesh.load(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 25, false, true, pointsW));
+				waterMesh.load(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, planeSeg, false, true, pointsW));
+			}
+			ImGui::SliderInt("Number of Segments (Water)", &planeSeg, 1, 35);//arbitrary 35 but if it goes up too much it gets slow
+			if (ImGui::SliderInt("Worley Grid", &wGrid, 1, 10)) {
+				worley.reGen(PLANE_WIDTH, wGrid);
+				pointsW.clear();
+				pointsW = worley.getPoints();
+			}
+			if (ImGui::SliderInt("Voronoi Points", &vNumPoints, 1, 100)) {
+				voronoi.reGen(vNumPoints, PLANE_WIDTH, PLANE_WIDTH);
+				pointsV.clear();
+				pointsV = voronoi.getPoints();
 			}
 
 			ImGui::End();

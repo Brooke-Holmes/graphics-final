@@ -23,6 +23,17 @@ namespace anm {
 		}
 		std::vector<ew::Vec2> getPoints() { return points; }
 
+		void reGen(int numPoints, float width, float height)
+		{	
+			points.clear();
+			createPoints(numPoints, -(width / 2.0f), (width / 2.0f), -(height / 2.0f), (height / 2.0f));
+		}
+		void reGen(float width, int segments)
+		{
+			points.clear();
+			createGridPoints(-(width / 2.0f), (width / 2.0f), segments);
+		}
+
 	private:
 		void createPoints(const int numPoints, int xMin, int xMax, int yMin, int yMax) //generates points randomly in an area
 		{
