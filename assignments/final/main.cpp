@@ -66,7 +66,8 @@ struct Material
 //////FUNCTIONS START HERE\\\\\\
 \\\\\\\\\\\\\\\\////////////////
 
-//Clamps the camera within the world border
+//Clamps the camera within the world border and wraps the world
+//Ethan made this
 void clampCameraPos(ew::Camera& camera)
 {
 	if (camera.position.y <= SAND_HEIGHT+0.1f)
@@ -258,6 +259,7 @@ int main() {
 
 
 		//RENDER
+		//Ethan implemented textures
 		glClearColor(bgColor.x, bgColor.y, bgColor.z, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -365,6 +367,7 @@ int main() {
 			if (ImGui::DragFloat("Shininess", &material.shininess, 1.0f, 2.0f, 256.0f)) {
 				shader.setFloat("_Material.shininess", material.shininess);
 			}
+			//Ethan made the Brick Toggle
 			if (ImGui::Checkbox("Brick", &isBrick))
 			{
 				if (isBrick)
