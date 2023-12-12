@@ -35,7 +35,7 @@ float SEAWEED_HEIGHT = 10.0f; //actual height of the seaweed, not the height it'
 float PLANE_WIDTH = 100.0f;
 
 float prevTime;
-ew::Vec3 bgColor = (ew::Vec3(4.0f, 170.0f, 229.0f)/255.0f);
+ew::Vec3 bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f)/255.0f);
 
 ew::Camera camera;
 ew::CameraController cameraController;
@@ -138,12 +138,14 @@ int main() {
 	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_MIRRORED_REPEAT, GL_LINEAR);
 
 	//Noise generation
-	anm::Noise noise(50, PLANE_WIDTH, PLANE_WIDTH);
-	std::vector<ew::Vec2> points = noise.getPoints();
+	anm::Noise voronoi(50, PLANE_WIDTH, PLANE_WIDTH);
+	anm::Noise worley(PLANE_WIDTH, 6);
+	std::vector<ew::Vec2> points = voronoi.getPoints();
+	std::vector<ew::Vec2> points1 = worley.getPoints();
 
 	//Create meshes and transforms
 	ew::Mesh sandMesh(anm::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10, true));
-	anm::Mesh waterMesh(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 10, false, points));
+	anm::Mesh waterMesh(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 25, false, points));
 	ew::Mesh seaweedMesh(ew::createPlane(5.0f, SEAWEED_HEIGHT, 5));
 
 	ew::Transform sandTransform;
@@ -373,7 +375,7 @@ int main() {
 				}
 				else
 				{
-					bgColor = (ew::Vec3(4.0f, 170.0f, 229.0f)/255.0f);
+					bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f) / 255.0f);
 				}
 			}
 

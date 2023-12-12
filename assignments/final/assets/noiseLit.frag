@@ -13,10 +13,10 @@ uniform sampler2D _Texture;
 
 void main(){
 	
-	float color = sin(fs_in.Dist);
-	
-	if(color >= 0.9f){
-	FragColor = vec4(color,color,color,1.0f);
+	float color = 1 - ((fs_in.Dist/50.f) * cos(fs_in.Dist));
+
+	if(color <= 0.9f){
+	FragColor =  (texture(_Texture,fs_in.UV) + vec4(color,color,color,1.0f));
 	}
 	else
 	{
