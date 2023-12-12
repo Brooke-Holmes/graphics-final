@@ -1,3 +1,4 @@
+//By Autumn Miranda
 #pragma once
 #include "../ew/ewMath/ewMath.h"
 #include <random>

@@ -1,4 +1,4 @@
-
+//By Autumn Miranda
 #version 450
 //https://stackoverflow.com/questions/33493709/opengl-layout-qualifier
 layout(location = 0) in vec3 vPos;

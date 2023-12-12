@@ -1,4 +1,4 @@
-
+//By Autumn Miranda
 #include "myProcGen.h"
 #include "../anm/myMesh.h"
 #include "../ew/ewMath/ewMath.h"

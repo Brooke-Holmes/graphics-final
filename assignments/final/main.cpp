@@ -132,13 +132,12 @@ int main() {
 
 	ew::Shader shader("assets/noiseLit.vert", "assets/noiseLit.frag");
 	ew::Shader lightShader("assets/unlit.vert", "assets/unlit.frag");
-	//ew::Shader noiseShader("assets/noiseLit.vert", "assets/noiseLit.frag");
 	unsigned int brickTexture = ew::loadTexture("assets/brick_color.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int seaweedTexture = ew::loadTexture("assets/seaweed.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int waterTexture = ew::loadTexture("assets/blue.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_MIRRORED_REPEAT, GL_LINEAR);
 
-	//Noise generation
+	//Noise generation by Autumn
 	anm::Noise voronoi(50, PLANE_WIDTH, PLANE_WIDTH);
 	anm::Noise worley(PLANE_WIDTH, 6);
 	std::vector<ew::Vec2> points = voronoi.getPoints();
@@ -226,6 +225,7 @@ int main() {
 		ew::Vec3 CameraRight_worldspace = { camera.ViewMatrix()[0][0], camera.ViewMatrix()[1][0], camera.ViewMatrix()[2][0] };
 		ew::Vec3 CameraUp_worldspace = { camera.ViewMatrix()[0][1], camera.ViewMatrix()[1][1], camera.ViewMatrix()[2][1] };
 
+		//Seaweed Billboarding by Brooke
 		//creates an array of Vec3s, then fills it in with the MeshData of the seaweed plane
 		ew::Vec3 seaweedCorners[4]; //makes an array to hold just the positions of the corners
 		seaweedMesh.planeCorners(seaweedCorners, 6); // 6 should be the number of columns on the plane
@@ -274,6 +274,7 @@ int main() {
 		}
 
 		shader.use();
+		glBindTexture(GL_TEXTURE_2D, brickTexture);
 		glDisable(GL_CULL_FACE);
 		if (!isBrick)
 		{

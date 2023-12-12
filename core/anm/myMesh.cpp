@@ -1,5 +1,6 @@
 /*
 	Copy of mesh.cpp by Eric Winebrenner
+	no edits needed here, just needed it to be in my namespace
 */
 
 #include "myMesh.h"

@@ -1,3 +1,4 @@
+//By Autumn Miranda
 #pragma once
 #include "../anm/myMesh.h"
 #include "../ew/mesh.h"
