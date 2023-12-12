@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <cmath>
 
 #include <ew/external/glad.h>
 #include <ew/ewMath/ewMath.h>
@@ -20,6 +21,7 @@
 
 
 #include <anm/myProcGen.h>
+#include <bh/transformations.h>
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void resetCamera(ew::Camera& camera, ew::CameraController& cameraController);
@@ -154,18 +156,6 @@ int main() {
 	seaweedTransform.position = ew::Vec3(0, SAND_HEIGHT + SEAWEED_HEIGHT / 2.0f, 0);
 	//seaweedTransform.rotation = ew::Vec3(90, 90, 90);
 
-	//ew::Vec3 CameraRight_worldspace = {camera.ViewMatrix()[0][0], camera.ViewMatrix()[1][0], camera.ViewMatrix()[2][0]};
-	//ew::Vec3 CameraUp_worldspace = {camera.ViewMatrix()[0][1], camera.ViewMatrix()[1][1], camera.ViewMatrix()[2][1]};
-
-	//FIX THIS vvv 
-	//creates an array of Vec3s, then fills it in with the MeshData of the seaweed plane
-	ew::Vec3 seaweedCorners[4];//makes an array to hold just the positions of the corners
-	seaweedMesh.planeCorners(seaweedCorners, 6); // 6 should be the number of columns on the plane
-	/*ew::Vec3 vertexPosition_worldspace = seaweedTransform.position
-		+ CameraRight_worldspace * seaweedTransform.position.x * SEAWEED_HEIGHT
-		+ CameraUp_worldspace * seaweedTransform.position.y * 5.0f;
-	seaweedTransform.rotation = vertexPosition_worldspace;*/
-
 	//Noise stuff
 	std::vector<float> distances;
 	std::vector<ew::Vec3> waterVertices;
@@ -241,7 +231,42 @@ int main() {
 		*/
 		shader.setVec3("ambientColor", bgColor);
 
-		
+		ew::Vec3 CameraRight_worldspace = { camera.ViewMatrix()[0][0], camera.ViewMatrix()[1][0], camera.ViewMatrix()[2][0] };
+		ew::Vec3 CameraUp_worldspace = { camera.ViewMatrix()[0][1], camera.ViewMatrix()[1][1], camera.ViewMatrix()[2][1] };
+
+		//creates an array of Vec3s, then fills it in with the MeshData of the seaweed plane
+		ew::Vec3 seaweedCorners[4]; //makes an array to hold just the positions of the corners
+		seaweedMesh.planeCorners(seaweedCorners, 6); // 6 should be the number of columns on the plane
+
+		ew::Vec3 vertexRotations_worldspace[4];
+
+		for (int i = 0; i < 4; ++i) {
+			ew::Vec3 corner = seaweedCorners[i];
+			ew::Vec3 vertexPosition_worldspace = seaweedTransform.position
+				+ CameraRight_worldspace * (corner.x * 5.0f) * SEAWEED_HEIGHT
+				+ CameraUp_worldspace * (corner.y * 5.0f) * 5.0f;
+
+			vertexRotations_worldspace[i] = vertexPosition_worldspace;
+		}
+
+		// Calculate the average position of all vertices
+		ew::Vec3 averageVertexPosition;
+		for (int i = 0; i < 4; ++i)
+		{
+			averageVertexPosition += vertexRotations_worldspace[i];
+		}
+
+		averageVertexPosition /= 4.0f;
+
+		ew::Vec3 toCamera = camera.position - averageVertexPosition;
+
+		float angle = atan2f(toCamera.x, toCamera.z);
+
+		// Apply the rotation around the y-axis
+		seaweedTransform.rotation.x = 90.0f;
+		seaweedTransform.rotation.y = (angle * (180.0f / ew::PI) + 90.0f);
+		seaweedTransform.rotation.z = 0.0f;
+
 
 		//RENDER
 		glClearColor(bgColor.x, bgColor.y, bgColor.z, 1.0f);
@@ -278,7 +303,6 @@ int main() {
 		shader.setMat4("_Model", waterTransform.getModelMatrix());
 		waterMesh.draw();
 		glEnable(GL_CULL_FACE);
-		
 
 		if (!isBrick)
 		{
