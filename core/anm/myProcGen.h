@@ -4,8 +4,6 @@
 
 
 namespace anm {
-	ew::MeshData createSphere(float radius, int numSegments);
-	ew::MeshData createCylinder(float height, float radius, int numSegments);
-	ew::MeshData createPlane(float width, float height, int subdivisions, bool perSegment);
+	anm::MeshData createPlane(float width, float height, int subdivisions, bool perSegment);
 	anm::MeshData createNoisePlane(float width, float height, int subdivisions, bool perSegment, std::vector<ew::Vec2>& points);
 }

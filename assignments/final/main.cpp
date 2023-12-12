@@ -130,9 +130,9 @@ int main() {
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 
-	ew::Shader shader("assets/defaultLit.vert", "assets/defaultLit.frag");
+	ew::Shader shader("assets/noiseLit.vert", "assets/noiseLit.frag");
 	ew::Shader lightShader("assets/unlit.vert", "assets/unlit.frag");
-	ew::Shader noiseShader("assets/noiseLit.vert", "assets/noiseLit.frag");
+	//ew::Shader noiseShader("assets/noiseLit.vert", "assets/noiseLit.frag");
 	unsigned int brickTexture = ew::loadTexture("assets/brick_color.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int seaweedTexture = ew::loadTexture("assets/seaweed.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int waterTexture = ew::loadTexture("assets/blue.jpg", GL_REPEAT, GL_LINEAR);
@@ -145,7 +145,7 @@ int main() {
 	std::vector<ew::Vec2> points1 = worley.getPoints();
 
 	//Create meshes and transforms
-	ew::Mesh sandMesh(anm::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10, true));
+	anm::Mesh sandMesh(anm::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10, true));
 	anm::Mesh waterMesh(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 25, false, points));
 	ew::Mesh seaweedMesh(ew::createPlane(5.0f, SEAWEED_HEIGHT, 5));
 
@@ -273,22 +273,18 @@ int main() {
 			lightMesh.draw();
 		}
 
-		noiseShader.use();
+		shader.use();
 		glDisable(GL_CULL_FACE);
 		if (!isBrick)
 		{
 			glBindTexture(GL_TEXTURE_2D, waterTexture);
 		}
-		noiseShader.setInt("_Texture", 0);
-		noiseShader.setMat4("_Model", waterTransform.getModelMatrix());
-		noiseShader.setMat4("_ViewProjection", camera.ProjectionMatrix() * camera.ViewMatrix());
+		shader.setInt("_Texture", 0);
+		shader.setMat4("_Model", waterTransform.getModelMatrix());
+		shader.setMat4("_ViewProjection", camera.ProjectionMatrix() * camera.ViewMatrix());
 		waterMesh.draw();
 		glEnable(GL_CULL_FACE);
 		
-		shader.use();
-		glBindTexture(GL_TEXTURE_2D, brickTexture);
-		shader.setInt("_Texture", 0);
-		shader.setMat4("_ViewProjection", camera.ProjectionMatrix() * camera.ViewMatrix());
 
 		//Draw shapes
 		if (!isBrick)
@@ -298,7 +294,7 @@ int main() {
 		shader.setInt("_Texture", 0);
 		shader.setMat4("_Model", sandTransform.getModelMatrix());
 		sandMesh.draw();
-		shader.use();
+
 		if (!isBrick)
 		{
 			glBindTexture(GL_TEXTURE_2D, seaweedTexture);

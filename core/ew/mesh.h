@@ -10,6 +10,7 @@ namespace ew {
 		ew::Vec3 pos;
 		ew::Vec3 normal;
 		ew::Vec2 uv;
+		float dist = -1.0f;
 
 		inline ew::Vec3 getPos()const { return pos; }
 	};
