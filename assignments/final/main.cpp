@@ -140,12 +140,12 @@ int main() {
 	//Noise generation by Autumn
 	anm::Noise voronoi(50, PLANE_WIDTH, PLANE_WIDTH);
 	anm::Noise worley(PLANE_WIDTH, 6);
-	std::vector<ew::Vec2> points = voronoi.getPoints();
-	std::vector<ew::Vec2> points1 = worley.getPoints();
+	std::vector<ew::Vec2> pointsV = voronoi.getPoints();
+	std::vector<ew::Vec2> pointsW = worley.getPoints();
 
 	//Create meshes and transforms
 	anm::Mesh sandMesh(anm::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10, true));
-	anm::Mesh waterMesh(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 25, false, points));
+	anm::Mesh waterMesh(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 25, false, false, pointsV));
 	ew::Mesh seaweedMesh(ew::createPlane(5.0f, SEAWEED_HEIGHT, 5));
 
 	ew::Transform sandTransform;
@@ -377,6 +377,15 @@ int main() {
 				{
 					bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f) / 255.0f);
 				}
+			}
+			//Noise toggle buttons - Autumn 
+			if (ImGui::Button("Voronoi")) 
+			{
+				waterMesh.load(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 25, false, true, pointsV));
+			}
+			if (ImGui::Button("Worley"))
+			{
+				waterMesh.load(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 25, false, true, pointsW));
 			}
 
 			ImGui::End();

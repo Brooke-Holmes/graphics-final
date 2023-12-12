@@ -3,7 +3,7 @@
 #include "../anm/myMesh.h"
 #include "../ew/ewMath/ewMath.h"
 
-anm::MeshData anm::createNoisePlane(float width, float height, int subdivisions, bool perSegment, std::vector<ew::Vec2>& points)
+anm::MeshData anm::createNoisePlane(float width, float height, int subdivisions, bool perSegment, bool noise, std::vector<ew::Vec2>& points)
 {
 	anm::MeshData plane;
 	if (subdivisions <= 0) { subdivisions = 1; }
@@ -33,19 +33,24 @@ anm::MeshData anm::createNoisePlane(float width, float height, int subdivisions,
 					{
 						v.uv = ew::Vec2((col / static_cast<float>(subdivisions)), (row / static_cast<float>(subdivisions)));;
 					}
-
-					float xDist = v.pos.x - points[0].x;
-					float yDist = v.pos.z - points[0].y;
-					float distance = sqrt((pow(xDist, 2.0f) + pow(yDist, 2.0f)));
-					//this is un-optimized, but it finds the shortest distance between this vertex and the point closest
-					for (int j = 1; j < points.size(); j++)
-					{
-						xDist = v.pos.x - points[j].x;
-						yDist = v.pos.z - points[j].y;
-						float newDist = sqrt((pow(xDist, 2.0f) + pow(yDist, 2.0f)));
-						if (newDist < distance) { distance = newDist; }
+					if (noise) {
+						float xDist = v.pos.x - points[0].x;
+						float yDist = v.pos.z - points[0].y;
+						float distance = sqrt((pow(xDist, 2.0f) + pow(yDist, 2.0f)));
+						//this is un-optimized, but it finds the shortest distance between this vertex and the point closest
+						for (int j = 1; j < points.size(); j++)
+						{
+							xDist = v.pos.x - points[j].x;
+							yDist = v.pos.z - points[j].y;
+							float newDist = sqrt((pow(xDist, 2.0f) + pow(yDist, 2.0f)));
+							if (newDist < distance) { distance = newDist; }
+						}
+						v.dist = distance;
 					}
-					v.dist = distance;
+					else 
+					{
+						v.dist = -1.0f; // -1 means no noise in the shader
+					}
 					plane.vertices.push_back(v);
 				}
 			}
