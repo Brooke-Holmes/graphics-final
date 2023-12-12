@@ -34,6 +34,10 @@ namespace anm {
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)(offsetof(Vertex, uv)));
 			glEnableVertexAttribArray(2);
 
+			//Float attribute
+			glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)(offsetof(Vertex, dist)));
+			glEnableVertexAttribArray(3);
+
 			m_initialized = true;
 		}
 

@@ -9,30 +9,42 @@
 //what if I figure out how to do it on line segments to get that oval/long shape that they have
 
 namespace anm {
-	static std::random_device rd;
-	static std::mt19937 rng(rd());
-	ew::Vec2* createPoints(const int numPoints, int xMin, int xMax, int yMin, int yMax) 
+	class Noise
 	{
-		ew::Vec2* points = new ew::Vec2[numPoints];
-		for (int i = 0; i < numPoints; i++)  
+	public:
+		Noise() {}
+		Noise(int numPoints, float width, float height) 
 		{
-			std::uniform_int_distribution<> distribX(xMin, xMax);
-			int xVal = distribX(rng);
-			std::uniform_int_distribution<> distribY(yMin, yMax);
-			int yVal = distribY(rng);
-			points[i] = ew::Vec2(xVal, yVal);
+			createPoints(numPoints, -(width / 2.0f), (width / 2.0f), -(height / 2.0f), (height / 2.0f));
 		}
-		return points;
-	}
+		std::vector<ew::Vec2> getPoints() { return points; }
 
-	std::vector<float> calcDistance(std::vector<ew::Vec3> vertices, ew::Vec2* points)
+	private:
+		void createPoints(const int numPoints, int xMin, int xMax, int yMin, int yMax)
+		{
+			static std::random_device rd;
+			static std::mt19937 rng(rd());
+			for (int i = 0; i < numPoints; i++)
+			{
+				std::uniform_int_distribution<> distribX(xMin, xMax);
+				int xVal = distribX(rng);
+				std::uniform_int_distribution<> distribY(yMin, yMax);
+				int yVal = distribY(rng);
+				points.push_back(ew::Vec2(xVal, yVal));
+			}
+		}
+
+		std::vector<ew::Vec2> points;
+	};
+
+	/*std::vector<float> calcDistance(std::vector<ew::Vec3> vertices, ew::Vec2* points)
 	{
 		std::vector<float> distance;
-		for (int i = 0; i < vertices.size(); i++) 
+		for (int i = 0; i < vertices.size(); i++)
 		{
 			float xDist = vertices[i].x - points[0].x;
 			float yDist = vertices[i].y - points[0].y;
-			float dist = sqrt((pow(xDist,2.0f) + pow(yDist, 2.0f)));
+			float dist = sqrt((pow(xDist, 2.0f) + pow(yDist, 2.0f)));
 			for (int j = 1; j < sizeof(points); j++)
 			{
 				xDist = vertices[i].x - points[j].x;
@@ -45,9 +57,9 @@ namespace anm {
 		return distance;
 	}
 
-	/*void skewPoints() 
+	/*void skewPoints()
 	{
-		
+
 	}*/
 }
 

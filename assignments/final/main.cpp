@@ -32,9 +32,8 @@ float WATER_HEIGHT = 10.0f;
 float SEAWEED_HEIGHT = 10.0f; //actual height of the seaweed, not the height it's at
 float PLANE_WIDTH = 100.0f;
 
-
-ew::Vec2* points = anm::createPoints(7, -(PLANE_WIDTH/2.0f), (PLANE_WIDTH / 2.0f), -(PLANE_WIDTH / 2.0f), (PLANE_WIDTH / 2.0f));
-
+anm::Noise noise(7, PLANE_WIDTH, PLANE_WIDTH);
+std::vector<ew::Vec2> points = noise.getPoints();
 
 float prevTime;
 ew::Vec3 bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f)/255.0f);
@@ -133,15 +132,16 @@ int main() {
 
 	ew::Shader shader("assets/defaultLit.vert", "assets/defaultLit.frag");
 	ew::Shader lightShader("assets/unlit.vert", "assets/unlit.frag");
+	ew::Shader noiseShader("assets/noiseLit.vert", "assets/noiseLit.frag");
 	unsigned int brickTexture = ew::loadTexture("assets/brick_color.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int seaweedTexture = ew::loadTexture("assets/seaweed.jpg", GL_REPEAT, GL_LINEAR);
-	unsigned int waterTexture = ew::loadTexture("assets/water_texture.jpg", GL_REPEAT, GL_LINEAR);
+	unsigned int waterTexture = ew::loadTexture("assets/blue.jpg", GL_REPEAT, GL_LINEAR);
 	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_MIRRORED_REPEAT, GL_LINEAR);
 
 
 	//Create meshes and transforms
 	ew::Mesh sandMesh(anm::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10, true));
-	ew::Mesh waterMesh(ew::createPlane(PLANE_WIDTH, PLANE_WIDTH, 10));
+	anm::Mesh waterMesh(anm::createNoisePlane(PLANE_WIDTH, PLANE_WIDTH, 10, false, points));
 	ew::Mesh seaweedMesh(ew::createPlane(5.0f, SEAWEED_HEIGHT, 5));
 
 	ew::Transform sandTransform;
@@ -167,10 +167,6 @@ int main() {
 	seaweedTransform.rotation = vertexPosition_worldspace;*/
 
 	//Noise stuff
-	std::vector<float> distances;
-	std::vector<ew::Vec3> waterVertices;
-	waterMesh.getPosData(waterVertices);
-	distances = anm::calcDistance(waterVertices, points);
 
 
 	Material material;
@@ -213,7 +209,7 @@ int main() {
 		camera.aspectRatio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;
 		cameraController.Move(window, &camera, deltaTime);
 		clampCameraPos(camera);
-		shader.setVec3("cameraPos", camera.position);
+		/*shader.setVec3("cameraPos", camera.position);
 		shader.setBool("BP", bp);
 		shader.setInt("numLights", numLights);		
 
@@ -247,7 +243,7 @@ int main() {
 		glClearColor(bgColor.x, bgColor.y, bgColor.z, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		lightShader.use();
+		/*lightShader.use();
 		for (int i = 0; i < numLights; i++) {
 			lightShader.setMat4("_Model", lightTransform[i].getModelMatrix());
 			lightShader.setMat4("_ViewProjection", camera.ProjectionMatrix() * camera.ViewMatrix());
@@ -255,6 +251,7 @@ int main() {
 			lightMesh.draw();
 		}
 
+		
 		shader.use();
 		glBindTexture(GL_TEXTURE_2D, brickTexture);
 		shader.setInt("_Texture", 0);
@@ -268,18 +265,8 @@ int main() {
 		shader.setInt("_Texture", 0);
 		shader.setMat4("_Model", sandTransform.getModelMatrix());
 		sandMesh.draw();
-
-		glDisable(GL_CULL_FACE);
-		if (!isBrick)
-		{
-			glBindTexture(GL_TEXTURE_2D, waterTexture);
-		}
-		shader.setInt("_Texture", 0);
-		shader.setMat4("_Model", waterTransform.getModelMatrix());
-		waterMesh.draw();
-		glEnable(GL_CULL_FACE);
 		
-
+		shader.use();
 		if (!isBrick)
 		{
 			glBindTexture(GL_TEXTURE_2D, seaweedTexture);
@@ -287,6 +274,18 @@ int main() {
 		shader.setInt("_Texture", 0);
 		shader.setMat4("_Model", seaweedTransform.getModelMatrix());
 		seaweedMesh.draw();
+		*/
+		noiseShader.use();
+		glDisable(GL_CULL_FACE);
+		if (!isBrick)
+		{
+			glBindTexture(GL_TEXTURE_2D, waterTexture);
+		}
+		noiseShader.setInt("_Texture", 0);
+		noiseShader.setMat4("_Model", waterTransform.getModelMatrix());
+		noiseShader.setMat4("_ViewProjection", camera.ProjectionMatrix() * camera.ViewMatrix());
+		waterMesh.draw();
+		glEnable(GL_CULL_FACE);
 
 		//Render UI
 		{
@@ -351,7 +350,6 @@ int main() {
 			}
 			if (ImGui::Checkbox("Brick", &isBrick))
 			{
-				isBrick == true;
 				if (isBrick)
 				{
 					bgColor = (ew::Vec3(255.0f, 111.0f, 111.0f)/255.0f);
