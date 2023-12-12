@@ -8,6 +8,8 @@
 //I need to figure out how to either put it into a texture or add it to the shader 
 //what if I figure out how to do it on line segments to get that oval/long shape that they have
 
+static std::random_device rd;
+static std::mt19937 rng(rd());
 namespace anm {
 	class Noise
 	{
@@ -22,8 +24,6 @@ namespace anm {
 	private:
 		void createPoints(const int numPoints, int xMin, int xMax, int yMin, int yMax)
 		{
-			static std::random_device rd;
-			static std::mt19937 rng(rd());
 			for (int i = 0; i < numPoints; i++)
 			{
 				std::uniform_int_distribution<> distribX(xMin, xMax);

@@ -18,7 +18,7 @@
 #include <ew/cameraController.h>
 #include <string>
 #include <anm/noise.h>
-
+#include <iostream>
 
 #include <anm/myProcGen.h>
 #include <bh/transformations.h>
@@ -139,7 +139,7 @@ int main() {
 	unsigned int sandTexture = ew::loadTexture("assets/sand_texture.jpg", GL_MIRRORED_REPEAT, GL_LINEAR);
 
 	//Noise generation
-	anm::Noise noise(15, PLANE_WIDTH, PLANE_WIDTH);
+	anm::Noise noise(50, PLANE_WIDTH, PLANE_WIDTH);
 	std::vector<ew::Vec2> points = noise.getPoints();
 
 	//Create meshes and transforms
