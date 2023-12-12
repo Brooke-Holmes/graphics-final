@@ -45,7 +45,7 @@ namespace ew {
 			int end = m_numVertices-1;
 
 			corners[0] = theData.vertices[0].pos;
-			corners[1] = theData.vertices[width-1].pos;
+			corners[1] = theData.vertices[(int)width-1].pos;
 			corners[2] = theData.vertices[end-width].pos;
 			corners[3] = theData.vertices[end].pos;		}
 		ew::MeshData getData() { return theData; }

@@ -6,19 +6,20 @@ layout(location = 1) in vec3 vNormal;
 layout(location = 2) in vec2 vUV;
 layout(location = 3) in float vDist;
 
-out float dist;
 
-out Surface{
+
+out Surface2{
 	vec2 UV;
 	vec3 WorldPosition;
 	vec3 WorldNormal;
+	float Dist;
 }vs_out;
 
 uniform mat4 _Model;
 uniform mat4 _ViewProjection;
 
 void main(){
-	dist = vDist;
+	vs_out.Dist = vDist;
 	vs_out.UV = vUV;
 	//calcuate vs_out.WorldPosition
 	vs_out.WorldPosition = (_Model * vec4(vPos, 1.0f)).xyz;//.xyz is called swizzling
