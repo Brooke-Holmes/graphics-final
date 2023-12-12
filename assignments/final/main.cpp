@@ -36,7 +36,7 @@ anm::Noise noise(15, PLANE_WIDTH, PLANE_WIDTH);
 std::vector<ew::Vec2> points = noise.getPoints();
 
 float prevTime;
-ew::Vec3 bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f)/255.0f);
+ew::Vec3 bgColor = (ew::Vec3(4.0f, 170.0f, 229.0f)/255.0f);
 
 ew::Camera camera;
 ew::CameraController cameraController;
@@ -356,7 +356,7 @@ int main() {
 				}
 				else
 				{
-					bgColor = (ew::Vec3(0.0f, 188.0f, 255.0f)/255.0f);
+					bgColor = (ew::Vec3(4.0f, 170.0f, 229.0f)/255.0f);
 				}
 			}
 
