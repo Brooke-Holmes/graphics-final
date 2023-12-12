@@ -32,7 +32,7 @@ float WATER_HEIGHT = 10.0f;
 float SEAWEED_HEIGHT = 10.0f; //actual height of the seaweed, not the height it's at
 float PLANE_WIDTH = 100.0f;
 
-anm::Noise noise(7, PLANE_WIDTH, PLANE_WIDTH);
+anm::Noise noise(15, PLANE_WIDTH, PLANE_WIDTH);
 std::vector<ew::Vec2> points = noise.getPoints();
 
 float prevTime;

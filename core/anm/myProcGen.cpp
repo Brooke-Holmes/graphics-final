@@ -33,12 +33,12 @@ anm::MeshData anm::createNoisePlane(float width, float height, int subdivisions,
 					}
 
 					float xDist = v.pos.x - points[0].x;
-					float yDist = v.pos.y - points[0].y;
+					float yDist = v.pos.z - points[0].y;
 					float distance = sqrt((pow(xDist, 2.0f) + pow(yDist, 2.0f)));
 					for (int j = 1; j < points.size(); j++)
 					{
 						xDist = v.pos.x - points[j].x;
-						yDist = v.pos.y - points[j].y;
+						yDist = v.pos.z - points[j].y;
 						float newDist = sqrt((pow(xDist, 2.0f) + pow(yDist, 2.0f)));
 						if (newDist < distance) { distance = newDist; }
 					}
