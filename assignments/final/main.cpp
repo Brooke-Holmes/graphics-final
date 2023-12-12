@@ -1,4 +1,13 @@
+/*
+	Final Project by Autumn, Brooke, and Ethan
 
+	Noise UI - To generate the noise, click the button with it's name.
+	If you switch any of the values with the sliders you will have to 
+	click that noise's button again to see the changes
+	Ex. to see voronoi noise hit the voronoi button.
+	If you want to change the number of points, use the slider then hit 
+	the button for voronoi again to see the change
+*/
 #include <stdio.h>
 #include <math.h>
 #include <cmath>
@@ -44,9 +53,9 @@ ew::Mat4 viewMatrix = camera.ViewMatrix();
 
 bool bp = true;
 bool isBrick = false;
-int planeSeg = 25;
-int wGrid = 6;
-int vNumPoints = 50;
+int planeSeg = 25; // controls how many segments are in the water plane
+int wGrid = 6; //controls the grid of worley. this is the number of boxes on each side
+int vNumPoints = 50; // controls the number of random voronoi points
 
 const int MAX_LIGHTS = 3;
 int numLights = 1;
